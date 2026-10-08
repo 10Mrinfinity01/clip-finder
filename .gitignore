@@ -2,3 +2,4 @@ venv/
 clips/
 __pycache__/
 *.pyc
+.env

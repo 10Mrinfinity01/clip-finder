@@ -1,6 +1,13 @@
 import os
 import sys
+import json
+import requests
+from dotenv import load_dotenv
 from faster_whisper import WhisperModel
+
+load_dotenv()
+AGNES_API_KEY = os.getenv("AGNES_API_KEY")
+AGNES_BASE_URL = "https://apihub.agnes-ai.com/v1"
 
 VIDEO_EXTS = {".mp4", ".mov", ".mkv", ".avi"}
 AUDIO_EXTS = {".mp3", ".wav", ".m4a", ".flac"}
@@ -26,6 +33,72 @@ def find_matches(segments, query):
                 matches.append((word.start, word.end, word.word.strip()))
     return matches
 
+def ask_agnes(segments, query, model="agnes-3.0-flash"):
+    transcript_lines = []
+    for seg in segments:
+        if seg.words:
+            for w in seg.words:
+                transcript_lines.append(f"[{w.start:.2f}-{w.end:.2f}] {w.word.strip()}")
+        else:
+            transcript_lines.append(f"[{seg.start:.2f}-{seg.end:.2f}] {seg.text.strip()}")
+    transcript_text = "\n".join(transcript_lines)
+
+    system_prompt = (
+        "You are a video editing assistant for a clip-finder tool. Given a word-level "
+        "timestamped transcript and a search intent, identify the best matching moment(s). "
+        "Preserve speaker intent and never select a cut that misrepresents meaning. "
+        "Respond ONLY with valid JSON: a list of objects with keys 'start' (float seconds), "
+        "'end' (float seconds), 'text' (the relevant quote), and 'reason' (why this was chosen, "
+        "one sentence). No prose outside the JSON."
+    )
+
+    user_prompt = f"Search intent: \"{query}\"\n\nTranscript:\n{transcript_text}"
+
+    resp = requests.post(
+        f"{AGNES_BASE_URL}/chat/completions",
+        headers={
+            "Authorization": f"Bearer {AGNES_API_KEY}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": model,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+        },
+        timeout=30,
+    )
+    resp.raise_for_status()
+    content = resp.json()["choices"][0]["message"]["content"]
+
+    content = content.strip()
+    if content.startswith("```"):
+        content = content.strip("`")
+        if content.startswith("json"):
+            content = content[4:]
+    content = content.strip()
+
+    print(f"[DEBUG] Raw Agnes content: {content!r}")
+
+    decisions = json.loads(content)
+
+    # Handle the model wrapping the list in an object, e.g. {"matches": [...]}
+    if isinstance(decisions, dict):
+        for key in ("matches", "decisions", "edits", "results"):
+            if key in decisions and isinstance(decisions[key], list):
+                decisions = decisions[key]
+                break
+        else:
+            decisions = [decisions]
+
+    matches = []
+    for d in decisions:
+        if not isinstance(d, dict):
+            continue
+        matches.append((float(d["start"]), float(d["end"]), d.get("text", "")))
+    return matches
+
 def cut_video_clip(src, start, end, out_path):
     from moviepy import VideoFileClip
     with VideoFileClip(src) as clip:
@@ -40,7 +113,7 @@ def cut_audio_clip(src, start, end, out_path):
 
 def main():
     if len(sys.argv) < 3:
-        print("Usage: python main.py <media_file> <search_phrase> [model_size]")
+        print("Usage: python main.py <media_file> <search_phrase> [model_size] [pad_before] [pad_after]")
         sys.exit(1)
 
     file_path = sys.argv[1]
@@ -58,12 +131,18 @@ def main():
         sys.exit(1)
 
     segments = transcribe(file_path, model_size)
-    matches = find_matches(segments, query)
-        
+
     print("\n--- Full transcript ---")
     for seg in segments:
         print(f"[{seg.start:.2f}-{seg.end:.2f}] {seg.text}")
     print("------------------------\n")
+
+    try:
+        matches = ask_agnes(segments, query)
+        print(f"[+] Agnes found {len(matches)} match(es).")
+    except Exception as e:
+        print(f"[!] Agnes API failed ({e}), falling back to keyword match.")
+        matches = find_matches(segments, query)
 
     if not matches:
         print(f"[!] No matches found for '{query}'.")

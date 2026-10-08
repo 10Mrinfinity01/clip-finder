@@ -4,3 +4,4 @@ moviepy
 numpy
 flask
 python-dotenv
+requests
