@@ -1,0 +1,6 @@
+faster-whisper
+pydub
+moviepy
+numpy
+flask
+python-dotenv
