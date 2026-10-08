@@ -15,11 +15,15 @@ def transcribe(file_path, model_size="base"):
     return segments
 
 def find_matches(segments, query):
-    query = query.lower()
+    query = query.lower().strip()
     matches = []
     for seg in segments:
-        if query in seg.text.lower():
-            matches.append((seg.start, seg.end, seg.text.strip()))
+        if not seg.words:
+            continue
+        for word in seg.words:
+            cleaned = word.word.lower().strip(" .,!?\"'")
+            if query == cleaned or query in cleaned:
+                matches.append((word.start, word.end, word.word.strip()))
     return matches
 
 def cut_video_clip(src, start, end, out_path):
@@ -53,6 +57,11 @@ def main():
 
     segments = transcribe(file_path, model_size)
     matches = find_matches(segments, query)
+        
+    print("\n--- Full transcript ---")
+    for seg in segments:
+        print(f"[{seg.start:.2f}-{seg.end:.2f}] {seg.text}")
+    print("------------------------\n")
 
     if not matches:
         print(f"[!] No matches found for '{query}'.")
