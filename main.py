@@ -46,6 +46,8 @@ def main():
     file_path = sys.argv[1]
     query = sys.argv[2]
     model_size = sys.argv[3] if len(sys.argv) > 3 else "base"
+    pad_before = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
+    pad_after = float(sys.argv[5]) if len(sys.argv) > 5 else 1.0
 
     ext = os.path.splitext(file_path)[1].lower()
     is_video = ext in VIDEO_EXTS
@@ -71,8 +73,8 @@ def main():
     print(f"[+] Found {len(matches)} match(es). Extracting clips...")
 
     for i, (start, end, text) in enumerate(matches):
-        padded_start = max(0, start - 1)
-        padded_end = end + 1
+        padded_start = max(0, start - pad_before)
+        padded_end = end + pad_after
         ext_out = ".mp4" if is_video else ".mp3"
         out_path = os.path.join("clips", f"clip_{i+1}{ext_out}")
 
