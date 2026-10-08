@@ -30,7 +30,7 @@ def find_matches(segments, query):
         for word in seg.words:
             cleaned = word.word.lower().strip(" .,!?\"'")
             if query == cleaned or query in cleaned:
-                matches.append((word.start, word.end, word.word.strip()))
+                matches.append((word.start, word.end, word.word.strip(), "Matched by literal keyword search (Agnes unavailable)."))
     return matches
 
 def ask_agnes(segments, query, model="agnes-3.0-flash"):
@@ -92,11 +92,11 @@ def ask_agnes(segments, query, model="agnes-3.0-flash"):
         else:
             decisions = [decisions]
 
-    matches = []
+        matches = []
     for d in decisions:
         if not isinstance(d, dict):
             continue
-        matches.append((float(d["start"]), float(d["end"]), d.get("text", "")))
+        matches.append((float(d["start"]), float(d["end"]), d.get("text", ""), d.get("reason", "")))
     return matches
 
 def cut_video_clip(src, start, end, out_path):
@@ -151,19 +151,38 @@ def main():
     os.makedirs("clips", exist_ok=True)
     print(f"[+] Found {len(matches)} match(es). Extracting clips...")
 
-    for i, (start, end, text) in enumerate(matches):
+    edit_log = []
+
+    for i, (start, end, text, reason) in enumerate(matches):
         padded_start = max(0, start - pad_before)
         padded_end = end + pad_after
         ext_out = ".mp4" if is_video else ".mp3"
-        out_path = os.path.join("clips", f"clip_{i+1}{ext_out}")
+        out_filename = f"clip_{i+1}{ext_out}"
+        out_path = os.path.join("clips", out_filename)
 
         print(f"  -> [{padded_start:.2f}s - {padded_end:.2f}s] \"{text}\"")
+        print(f"     Why: {reason}")
+
         if is_video:
             cut_video_clip(file_path, padded_start, padded_end, out_path)
         else:
             cut_audio_clip(file_path, padded_start, padded_end, out_path)
 
-    print(f"[+] Done. Clips saved in ./clips/")
+        edit_log.append({
+            "clip": out_filename,
+            "query": query,
+            "source_file": file_path,
+            "start": round(padded_start, 2),
+            "end": round(padded_end, 2),
+            "text": text,
+            "reason": reason,
+        })
 
+    log_path = os.path.join("clips", "edit_log.json")
+    with open(log_path, "w", encoding="utf-8") as f:
+        json.dump(edit_log, f, indent=2)
+
+    print(f"[+] Done. Clips saved in ./clips/")
+    print(f"[+] Edit decision log saved to {log_path}")
 if __name__ == "__main__":
     main()
