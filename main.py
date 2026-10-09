@@ -271,6 +271,7 @@ def ask_agnes_edl(segments, audience="general", target_seconds=45, model="agnes-
         return base
 
     transcript_text = "\n".join(_line(i, s) for i, s in enumerate(sents))
+    lo, hi = target_seconds * 0.8, target_seconds * 1.2
     extra = ""
     if visual:
         extra += ("Some sentences end with <visual N>, a 0-100 score of how visually engaging "
@@ -288,11 +289,12 @@ def ask_agnes_edl(segments, audience="general", target_seconds=45, model="agnes-
         f"audience '{audience}'. First write a one-sentence summary of the whole video. "
         "Then choose runs of consecutive sentences to KEEP and the rest to CUT. Rules: "
         "the short must make sense on its own and tell a coherent mini-story; prefer 2 "
-        "to 4 KEEP runs, each at least 6 seconds long; never start in the middle of a "
+        "the short must make sense on its own and tell a coherent mini-story; use 3 "
+        "to 5 KEEP runs, each between 6 and 15 seconds long, spread across the whole video; never start in the middle of a "
         "thought; keep a question together with its answer and a joke together with its "
         "setup; keep chronological order; never change the speaker's meaning; stop before "
         "the payoff or ending so the viewer is curious. The KEEP runs together must total "
-        f"{target_seconds*0.8:.0f} to {target_seconds*1.2:.0f} seconds. Give each KEEP a "
+        f"{lo:.0f} to {hi:.0f} seconds. Give each KEEP a "
         "role in this order: hook, curiosity, escalation, cta (the last line should invite "
         "the viewer to watch the full video). The transcript may be in any language. "
         "Respond ONLY with valid JSON: an object with 'summary' (string) and 'edl' (a "
@@ -301,56 +303,107 @@ def ask_agnes_edl(segments, audience="general", target_seconds=45, model="agnes-
         "sentence)). No prose outside the JSON."
     )
     system_prompt += " " + extra
-    resp = requests.post(
-        f"{AGNES_BASE_URL}/chat/completions",
-        headers={"Authorization": f"Bearer {AGNES_API_KEY}", "Content-Type": "application/json"},
-        json={"model": model, "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": f"Transcript:\n{transcript_text}\n\nPlan the short."},
-        ]},
-        timeout=120,
-    )
-    resp.raise_for_status()
-    content = resp.json()["choices"][0]["message"]["content"].strip()
-    if content.startswith("```"):
-        content = content.strip("`")
-        if content.startswith("json"):
-            content = content[4:]
-    content = content.strip()
-    print(f"[DEBUG] Raw Agnes EDL content: {content!r}")
 
-    data = json.loads(content)
-    items = data
-    if isinstance(data, dict):
-        print(f"[+] Story: {data.get('summary', '')}")
-        items = data.get("edl", [])
-    edl = []
-    for d in items:
-        if not isinstance(d, dict):
-            continue
+    def call_agnes(user_msg):
+        resp = requests.post(
+            f"{AGNES_BASE_URL}/chat/completions",
+            headers={"Authorization": f"Bearer {AGNES_API_KEY}", "Content-Type": "application/json"},
+            json={"model": model, "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_msg},
+            ]},
+            timeout=120,
+        )
+        resp.raise_for_status()
+        content = resp.json()["choices"][0]["message"]["content"].strip()
+        if content.startswith("```"):
+            content = content.strip("`")
+            if content.startswith("json"):
+                content = content[4:]
+        content = content.strip()
+        print(f"[DEBUG] Raw Agnes EDL content: {content!r}")
+        data = json.loads(content)
+        items = data
+        if isinstance(data, dict):
+            print(f"[+] Story: {data.get('summary', '')}")
+            items = data.get("edl", [])
+        return items
+
+    def build_plan(items):
+        edl = []
+        for d in items:
+            if not isinstance(d, dict):
+                continue
+            try:
+                a, b = int(d["first"]), int(d["last"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            a, b = max(0, a), min(len(sents) - 1, b)
+            if b < a:
+                continue
+            action = "cut" if str(d.get("action", "keep")).lower() == "cut" else "keep"
+            edl.append({"start": sents[a]["start"], "end": sents[b]["end"], "action": action,
+                        "role": d.get("role", ""), "reason": d.get("reason", "")})
+        edl.sort(key=lambda x: x["start"])
+        merged = []
+        for k in [x for x in edl if x["action"] == "keep"]:
+            if merged and k["start"] - merged[-1]["end"] < 2.5:
+                merged[-1]["end"] = max(merged[-1]["end"], k["end"])
+                merged[-1]["reason"] += " " + k["reason"]
+            else:
+                merged.append(dict(k))
+        merged = [k for k in merged if k["end"] - k["start"] >= 3.0]
+        return edl, merged
+
+    def total(keeps):
+        return sum(k["end"] - k["start"] for k in keeps)
+
+    def trim(keeps):
+        # Last resort when Agnes keeps far too much: drop the least visual middle runs,
+        # then shorten the longest run at sentence boundaries.
+        keeps = [dict(k) for k in keeps]
+
+        def kscore(k):
+            if not visual:
+                return 0
+            import fusion
+            return fusion._overlap_peak_mean(visual, "visual", k["start"], k["end"]) or 0
+
+        while total(keeps) > hi and len(keeps) > 3:
+            idx = min(range(1, len(keeps) - 1), key=lambda i: kscore(keeps[i]))
+            keeps.pop(idx)
+        while total(keeps) > hi:
+            k = max(keeps, key=lambda x: x["end"] - x["start"])
+            ends = [s["end"] for s in sents if k["start"] < s["end"] < k["end"] - 0.1]
+            if not ends or max(ends) - k["start"] < 6:
+                break
+            k["end"] = max(ends)
+        return keeps
+
+    base_user = f"Transcript:\n{transcript_text}\n\nPlan the short."
+    items = call_agnes(base_user)
+    edl, merged = build_plan(items)
+    kept = total(merged)
+
+    if(not merged) or kept > hi * 1.1 or kept < lo * 0.9:
+        print(f"[!] Plan kept {kept:.0f}s but the target is {target_seconds:.0f}s. Asking Agnes to revise...")
+        fix = (f"Your previous plan kept {kept:.0f} seconds in total, but the target is "
+               f"{target_seconds:.0f} seconds: the KEEP runs must add up to {lo:.0f}-{hi:.0f} "
+               "seconds. Add up the durations of your KEEP runs yourself and use fewer or "
+               f"shorter KEEP runs as needed. Previous plan: {json.dumps(items)}. "
+               "Respond ONLY with the corrected JSON.")
         try:
-            a, b = int(d["first"]), int(d["last"])
-        except (KeyError, TypeError, ValueError):
-            continue
-        a, b = max(0, a), min(len(sents) - 1, b)
-        if b < a:
-            continue
-        action = "cut" if str(d.get("action", "keep")).lower() == "cut" else "keep"
-        edl.append({"start": sents[a]["start"], "end": sents[b]["end"], "action": action,
-                    "role": d.get("role", ""), "reason": d.get("reason", "")})
-    edl.sort(key=lambda x: x["start"])
+            edl2, merged2 = build_plan(call_agnes(base_user + "\n\n" + fix))
+            if merged2 and (not merged or abs(total(merged2) - target_seconds) < abs(kept - target_seconds)):
+                edl, merged = edl2, merged2
+        except Exception as ex:
+            print(f"[!] Revision failed ({ex}); keeping the first plan.")
 
-    # merge keeps that are close together, drop tiny ones
-    merged = []
-    for k in [x for x in edl if x["action"] == "keep"]:
-        if merged and k["start"] - merged[-1]["end"] < 2.5:
-            merged[-1]["end"] = max(merged[-1]["end"], k["end"])
-            merged[-1]["reason"] += " " + k["reason"]
-        else:
-            merged.append(dict(k))
-    merged = [k for k in merged if k["end"] - k["start"] >= 3.0]
+    if total(merged) > hi * 1.15:
+        print(f"[!] Still {total(merged):.0f}s; trimming to fit the target.")
+        merged = trim(merged)
 
-    kept = sum(k["end"] - k["start"] for k in merged)
+    kept = total(merged)
     print(f"[+] Kept {kept:.1f}s (target {target_seconds:.0f}s)")
 
     cuts = [x for x in edl if x["action"] == "cut"]
@@ -375,7 +428,10 @@ def ask_agnes_edl(segments, audience="general", target_seconds=45, model="agnes-
                       "reason": cut_reason(cursor, total_end)})
     return final
 
-def assemble_short(src, edl, out_path, is_video, pad=0.1):
+"""Smooth-join video/audio assembly for Saar (replaces assemble_short in main.py for the server)."""
+def assemble_short(src, edl, out_path, is_video, pad=0.1, pad_in=0.08, pad_out=0.30, xf=0.25):
+    """Join KEEP runs with a soft cross-fade (audio and video overlap) instead of
+    dipping to black, and leave a little room after the last word of each run."""
     keeps = [x for x in edl if x["action"] == "keep"]
     if not keeps:
         return False
@@ -384,25 +440,39 @@ def assemble_short(src, edl, out_path, is_video, pad=0.1):
         with VideoFileClip(src) as clip:
             parts = []
             for k in keeps:
-                s = max(0, k["start"] - pad)
-                e = min(clip.duration, k["end"] + pad)
-                if e > s:
-                    part = clip.subclipped(s, e).with_effects(
-                        [vfx.FadeIn(0.2), vfx.FadeOut(0.2),
-                         afx.AudioFadeIn(0.15), afx.AudioFadeOut(0.15)])
-                    parts.append(part)
+                s = max(0, k["start"] - pad_in)
+                e = min(clip.duration, k["end"] + pad_out)
+                if e - s > 2 * xf:
+                    parts.append(clip.subclipped(s, e))
             if not parts:
                 return False
-            final = concatenate_videoclips(parts)
+            out = []
+            for i, p in enumerate(parts):
+                fx = []
+                if i > 0:
+                    fx += [vfx.CrossFadeIn(xf), afx.AudioFadeIn(xf)]
+                else:
+                    fx += [vfx.FadeIn(0.3), afx.AudioFadeIn(0.2)]
+                if i < len(parts) - 1:
+                    fx += [afx.AudioFadeOut(xf)]
+                else:
+                    fx += [vfx.FadeOut(0.4), afx.AudioFadeOut(0.4)]
+                out.append(p.with_effects(fx))
+            final = concatenate_videoclips(out, method="compose", padding=-xf)
             final.write_videofile(out_path, codec="libx264", audio_codec="aac")
     else:
         from pydub import AudioSegment
         audio = AudioSegment.from_file(src)
-        out = AudioSegment.empty()
+        out = None
+        ms = int(xf * 1000)
         for k in keeps:
-            seg = audio[int(max(0, k["start"] - pad) * 1000):int((k["end"] + pad) * 1000)]
-            out += seg.fade_in(150).fade_out(150)
-        out.export(out_path, format="mp3")
+            seg = audio[int(max(0, k["start"] - pad_in) * 1000):int((k["end"] + pad_out) * 1000)]
+            if len(seg) < 2 * ms:
+                continue
+            out = seg if out is None else out.append(seg, crossfade=ms)
+        if out is None:
+            return False
+        out.fade_in(200).fade_out(400).export(out_path, format="mp3")
     return True
 def cut_video_clip(src, start, end, out_path):
     from moviepy import VideoFileClip

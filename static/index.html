@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#17203A; --ink-2:#3A4563; --mute:#6B7491;
+  --paper:#ECEFF3; --panel:#F8F9FB; --line:#D5DAE3;
+  --keep:#F0A202; --keep-ink:#5A3B00; --cut:#9AA2B6; --err:#C63A24;
+  --r:6px;
+  --e-joy:#1F9D55; --e-sadness:#3B6FD4; --e-anger:#D1453B; --e-fear:#8A56C2; --e-surprise:#D9669F; --e-disgust:#7C8C2E;
+  --font:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI','Noto Sans Kannada','Noto Sans Devanagari',sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--ink:#E9ECF5; --ink-2:#B9C1D9; --mute:#8D96B3; --paper:#10152A; --panel:#171E38; --line:#2B3454; --keep-ink:#FFD98A; --cut:#5E6784; --err:#FF8A75}
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:400 16px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.02em;line-height:1.08}
+h1{font-size:clamp(2.2rem,5vw,3.6rem)}
+h2{font-size:1.35rem}
+h3{font-size:1rem;letter-spacing:-.01em}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--keep);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+[hidden]{display:none!important}
+
+/* top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.mark{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.25rem;letter-spacing:-.02em}
+.mark svg{width:34px;height:20px}
+.status{font-size:.85rem;color:var(--mute);display:flex;align-items:center;gap:8px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--cut)}
+.dot.ok{background:#2E9D6B}.dot.bad{background:var(--err)}
+
+/* buttons / fields */
+.btn{background:var(--ink);color:var(--paper);border:0;border-radius:var(--r);padding:12px 20px;font-weight:500;cursor:pointer}
+.btn:hover{background:var(--ink-2)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--panel)}
+.btn.keep{background:var(--keep);color:#241700}
+.btn.keep:hover{filter:brightness(1.06)}
+label.f{display:block;font-size:.88rem;font-weight:500;margin-bottom:6px}
+.hint{font-size:.82rem;color:var(--mute);margin-top:5px}
+input[type=text],select,textarea{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px}
+textarea{resize:vertical;min-height:70px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px}
+.row{display:grid;gap:16px}
+.row.two{grid-template-columns:1fr 1fr}
+
+/* upload */
+.intro{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;padding:36px 0 70px}
+.intro p.lead{margin-top:18px;font-size:1.12rem;color:var(--ink-2);max-width:34ch}
+.drop{display:block;border:2px dashed var(--cut);border-radius:10px;padding:34px 18px;text-align:center;cursor:pointer;background:var(--paper);transition:border-color .15s,background .15s}
+.drop:hover,.drop.over{border-color:var(--keep);background:color-mix(in srgb,var(--keep) 10%,var(--paper))}
+.drop strong{display:block;font-size:1.05rem}
+.drop span{color:var(--mute);font-size:.88rem}
+.drop.has strong{color:var(--keep-ink)}
+.thread{width:100%;height:46px;margin-top:34px}
+
+/* progress */
+.prog{max-width:560px;margin:40px auto 90px}
+.stages{list-style:none;margin:20px 0 0;padding:0}
+.stages li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);color:var(--mute)}
+.stages li:last-child{border:0}
+.stages .pip{width:12px;height:12px;border-radius:50%;border:2px solid var(--cut)}
+.stages li.now{color:var(--ink);font-weight:500}
+.stages li.now .pip{border-color:var(--keep);background:var(--keep);animation:pulse 1.2s ease-in-out infinite}
+.stages li.done{color:var(--ink-2)}
+.stages li.done .pip{border-color:#2E9D6B;background:#2E9D6B}
+@keyframes pulse{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--keep) 30%,transparent)}}
+.err{color:var(--err);margin-top:14px;font-weight:500}
+
+/* workspace */
+.ws{padding-bottom:80px}
+.top{display:grid;grid-template-columns:1.25fr 1fr;gap:20px;align-items:start}
+video{width:100%;display:block;background:#000;border-radius:8px;max-height:56vh}
+.vlabel{font-size:.85rem;color:var(--mute);margin:0 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:6px 14px;cursor:pointer;font-size:.92rem}
+.chip:hover{background:var(--paper)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.len{display:flex;align-items:center;gap:14px}
+.len input[type=range]{flex:1;accent-color:var(--keep)}
+.len output{min-width:4.2em;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:.92rem}
+.chk input{margin-top:4px;accent-color:var(--keep)}
+.editing{display:none;margin-top:14px}
+.editing.on{display:block}
+.editing .stages li{padding:6px 0;border:0}
+
+/* timeline — the centrepiece */
+.tl{margin-top:20px}
+.tl-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.tl-grid{display:grid;grid-template-columns:64px 1fr;gap:6px 12px;align-items:center}
+.tl-grid .lab{font-size:.82rem;color:var(--mute);text-align:right}
+.lane{position:relative;border-radius:4px;background:color-mix(in srgb,var(--ink) 5%,transparent);overflow:hidden}
+.lane.vis{height:58px}.lane.sp{height:30px}.lane.ed{height:30px}
+.b{position:absolute;bottom:0;background:var(--ink);opacity:.8}
+.s{position:absolute;top:0;bottom:0;background:var(--ink);border-right:1px solid var(--paper)}
+.s.top{box-shadow:inset 0 -4px 0 var(--keep)}
+.k{position:absolute;top:0;bottom:0;background:var(--keep);border-right:1px solid var(--paper)}
+.c{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(135deg,var(--cut) 0 2px,transparent 2px 7px);opacity:.75}
+.ruler{position:relative;height:18px;font-size:.74rem;color:var(--mute)}
+.ruler i{position:absolute;top:0;transform:translateX(-50%);font-style:normal;font-variant-numeric:tabular-nums}
+.head{position:absolute;top:0;bottom:0;width:2px;background:var(--err);pointer-events:none;z-index:3}
+.overlay{position:relative;grid-column:2}
+.overlay .head{top:-2px;bottom:-2px}
+.tip{position:fixed;z-index:20;background:var(--ink);color:var(--paper);padding:8px 10px;border-radius:6px;font-size:.84rem;max-width:300px;pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:.82rem;color:var(--mute);margin-top:12px}
+.legend span{display:flex;align-items:center;gap:6px}
+.sw{width:14px;height:10px;border-radius:2px;display:inline-block}
+.sw.k{position:static;background:var(--keep)}
+.sw.c{position:static;background:repeating-linear-gradient(135deg,var(--cut) 0 2px,transparent 2px 5px)}
+.sw.i{background:var(--ink)}
+.sw.t{background:var(--ink);box-shadow:inset 0 -3px 0 var(--keep)}
+
+/* lower panels */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.list{max-height:420px;overflow:auto;margin:12px -8px 0;padding:0 8px}
+.li{display:grid;grid-template-columns:62px 1fr 34px;gap:10px;align-items:start;padding:9px 8px;border-radius:6px;cursor:pointer;border-bottom:1px solid var(--line)}
+.li:hover{background:var(--paper)}
+.li.now{background:color-mix(in srgb,var(--keep) 18%,transparent)}
+.li time{font-variant-numeric:tabular-nums;color:var(--mute);font-size:.84rem;padding-top:2px}
+.li .sc{font-size:.8rem;color:var(--mute);text-align:right;font-variant-numeric:tabular-nums;padding-top:2px}
+.li.kept{box-shadow:inset 3px 0 0 var(--keep)}
+.tag{display:inline-block;font-size:.78rem;font-weight:700;padding:1px 8px;border-radius:999px;margin-right:6px}
+.tag.keep{background:var(--keep);color:#241700}
+.tag.cut{background:transparent;border:1px solid var(--cut);color:var(--mute)}
+.tag.role{background:var(--paper);border:1px solid var(--line);color:var(--ink-2);font-weight:500}
+.why{display:block;margin-top:3px;color:var(--ink-2);font-size:.92rem}
+.dec{grid-template-columns:62px 1fr}
+
+/* result */
+.res{margin-top:20px}
+.res-top{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:22px;align-items:start}
+.vers{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.stat{display:flex;gap:26px;flex-wrap:wrap;margin:6px 0 16px}
+.stat div{font-size:.85rem;color:var(--mute)}
+.stat b{display:block;font-size:1.7rem;color:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.note{font-size:.85rem;color:var(--mute)}
+
+.banner{background:color-mix(in srgb,var(--err) 12%,var(--panel));border:1px solid var(--err);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:.92rem}
+
+/* emotions */
+.lane.em{height:30px}
+.em-b{position:absolute;top:0;bottom:0;border-right:1px solid var(--paper)}
+.edot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+.chip.none{opacity:.55}
+.emsum{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.emsum button{display:flex;align-items:center;border:1px solid var(--line);background:transparent;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:.88rem}
+.emsum button:hover{background:var(--paper)}
+.emsum button.none{opacity:.5;cursor:default}
+.etag{display:inline-block;font-size:.76rem;padding:1px 8px;border-radius:999px;border:1px solid var(--line);margin-right:6px;color:var(--ink-2)}
+.nofound{margin-top:16px;border:1px solid var(--line);border-left:4px solid var(--cut);border-radius:8px;padding:14px 16px;background:var(--paper)}
+.nofound b{display:block;margin-bottom:6px}
+.seg2{display:flex;gap:8px}
+@media (max-width:860px){
+  .intro,.top,.cols,.res-top{grid-template-columns:1fr}
+  .intro{gap:30px;padding-top:12px}
+  .row.two{grid-template-columns:1fr}
+  .tl-grid{grid-template-columns:44px 1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <div class="mark">
+      <svg viewBox="0 0 34 20" aria-hidden="true"><path d="M1 10 H9 M25 10 H33" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="11" y="3" width="12" height="14" rx="3" fill="#F0A202"/></svg>
+      Saar
+    </div>
+    <div class="status"><span class="dot" id="dot"></span><span id="stext">Checking backend</span></div>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <!-- 1. upload -->
+  <main id="v-upload" class="intro">
+    <div>
+      <h1>Turn a long recording into a short that keeps the story.</h1>
+      <p class="lead">Upload a video in Kannada, Hindi, English or another Indian language. Every cut comes with a reason.</p>
+      <svg class="thread" viewBox="0 0 400 46" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 23 H400" stroke="currentColor" stroke-opacity=".25" stroke-width="2" stroke-dasharray="3 6"/>
+        <rect x="18" y="12" width="70" height="22" rx="4" fill="#F0A202"/>
+        <rect x="142" y="12" width="46" height="22" rx="4" fill="#F0A202"/>
+        <rect x="262" y="12" width="96" height="22" rx="4" fill="#F0A202"/>
+      </svg>
+    </div>
+    <form class="card" id="upform">
+      <label class="drop" id="drop" for="file" tabindex="0">
+        <strong id="dname">Drop a video here or choose a file</strong>
+        <span id="dsub">MP4, MOV, MKV, WebM, or audio</span>
+        <input id="file" type="file" accept="video/*,audio/*" hidden>
+      </label>
+      <div class="row two" style="margin-top:18px">
+        <div>
+          <label class="f" for="lang">Spoken language</label>
+          <select id="lang">
+            <option value="">Detect automatically</option>
+            <option value="kn">Kannada</option><option value="hi">Hindi</option><option value="en">English</option>
+            <option value="ta">Tamil</option><option value="te">Telugu</option><option value="ml">Malayalam</option>
+            <option value="mr">Marathi</option><option value="bn">Bengali</option>
+          </select>
+        </div>
+        <div>
+          <label class="f" for="sig">Extra signals</label>
+          <select id="sig"><option value="">Match by file name</option><option value="none">Transcript only</option></select>
+        </div>
+      </div>
+      <p class="hint" id="sighint">Signals are visual and word-timing files prepared for a video. Use Transcript only to skip them.</p>
+      <button class="btn" id="go" style="margin-top:20px;width:100%" disabled>Analyze video</button>
+    </form>
+  </main>
+
+  <!-- 2. progress -->
+  <section id="v-prog" class="prog card" hidden>
+    <h2 id="ptitle">Analyzing your video</h2>
+    <p class="note" id="psub" style="margin-top:6px">The first run on a new video takes a minute or two. Repeat runs are much faster.</p>
+    <ul class="stages" id="pstages"></ul>
+    <p class="err" id="perr" hidden></p>
+    <button class="btn ghost" id="pback" style="margin-top:16px" hidden>Start over</button>
+  </section>
+
+  <!-- 3. workspace -->
+  <section id="v-ws" class="ws" hidden>
+    <div class="top">
+      <div>
+        <p class="vlabel" id="vname">Original</p>
+        <video id="vid" controls preload="metadata"></video>
+      </div>
+      <form class="card" id="edform">
+        <h2>Create a short</h2>
+        <div style="margin-top:16px">
+          <label class="f">What kind of short</label>
+          <div class="chips" id="mode">
+            <button type="button" class="chip" aria-pressed="true" data-v="summary">Whole story</button>
+            <button type="button" class="chip" aria-pressed="false" data-v="emotion">One emotion</button>
+          </div>
+          <p class="hint" id="modehint">A teaser that covers every emotion in the video and makes people want to watch the rest.</p>
+        </div>
+        <div id="m-emo" style="margin-top:16px" hidden>
+          <label class="f">Which emotion</label>
+          <div class="chips" id="emochips"></div>
+          <p class="hint">Only moments where this emotion is clearly present, always whole sentences. If the video has none, you are told instead of getting a short.</p>
+        </div>
+        <div id="m-aud" style="margin-top:16px">
+          <label class="f">Who is it for</label>
+          <div class="chips" id="aud">
+            <button type="button" class="chip" aria-pressed="true" data-v="general">General</button>
+            <button type="button" class="chip" aria-pressed="false" data-v="students">Students</button>
+            <button type="button" class="chip" aria-pressed="false" data-v="investors">Investors</button>
+            <button type="button" class="chip" aria-pressed="false" data-v="social-media">Social media</button>
+            <button type="button" class="chip" aria-pressed="false" data-v="custom">Other</button>
+          </div>
+          <input type="text" id="audc" placeholder="For example: first-year engineers" hidden style="margin-top:10px" aria-label="Custom audience">
+        </div>
+        <div style="margin-top:16px">
+          <label class="f" for="len">Length</label>
+          <div class="len"><input id="len" type="range" min="10" max="180" step="5" value="45"><output id="lenout">45 s</output></div>
+        </div>
+        <div class="row" style="margin-top:16px">
+          <div><label class="f" for="style">Style</label><input type="text" id="style" placeholder="Dramatic and fast-paced"></div>
+          <div><label class="f" for="req">Must include</label><textarea id="req" placeholder="End with the call to action. Keep the demo."></textarea></div>
+        </div>
+        <label class="chk" style="margin-top:14px"><input type="checkbox" id="usesig" checked><span><b style="font-weight:500">Use visual and word-timing signals</b><span class="hint" style="display:block;margin-top:2px" id="usehint"></span></span></label>
+        <button class="btn keep" id="mk" style="margin-top:18px;width:100%">Create short</button>
+        <div class="editing" id="editing"><ul class="stages" id="estages"></ul></div>
+        <p class="err" id="eerr" hidden></p>
+      </form>
+    </div>
+
+    <div class="card tl">
+      <div class="tl-head"><h2>Where the moments are</h2><span class="note" id="tlnote"></span></div>
+      <div class="tl-grid" id="tlgrid">
+        <div class="lab">Visual</div><div class="lane vis" id="l-vis"></div>
+        <div class="lab">Speech</div><div class="lane sp" id="l-sp"></div>
+        <div class="lab">Emotion</div><div class="lane em" id="l-em"></div>
+        <div class="lab" id="l-edlab" hidden>Edit</div><div class="lane ed" id="l-ed" hidden></div>
+        <div></div><div class="ruler" id="ruler"></div>
+      </div>
+      <div class="emsum" id="emsum"></div>
+      <div class="legend" id="legend">
+        <span><i class="sw i"></i>Stronger signal is taller or darker</span>
+        <span><i class="sw t"></i>Top moment</span>
+      </div>
+    </div>
+
+    <div class="res card" id="res" hidden>
+      <div class="vers" id="vers"></div>
+      <div class="res-top">
+        <div>
+          <p class="vlabel">Your short</p>
+          <video id="svid" controls preload="metadata"></video>
+          <p style="margin-top:12px"><a class="btn ghost" id="dl" download style="display:inline-block;text-decoration:none">Download short</a></p>
+        </div>
+        <div>
+          <div class="stat" id="stat"></div>
+          <h3>What was kept and why</h3>
+          <div class="list" id="dec"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cols">
+      <div class="card"><h3>Strongest moments</h3><p class="note" style="margin-top:4px">Select one to jump to it in the original.</p><div class="list" id="top"></div></div>
+      <div class="card"><h3>Transcript</h3><p class="note" style="margin-top:4px" id="trnote">Read in English so editing can follow the meaning.</p><div class="list" id="tr"></div></div>
+    </div>
+  </section>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const API = (new URLSearchParams(location.search).get('api') || '').replace(/\/$/, '');
+const $ = id => document.getElementById(id);
+const fmt = t => { t = Math.max(0, t || 0); const m = Math.floor(t / 60), s = Math.floor(t % 60); return m + ':' + String(s).padStart(2, '0'); };
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const state = { file: null, job: null, res: null, versions: [], cur: -1, mode: 'summary', emo: '' };
+const EMOS = ['joy','sadness','anger','fear','surprise','disgust'];
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const ecol = e => `var(--e-${e})`;
+
+const STAGES_A = [['queued','Waiting for the GPU'],['detecting','Detecting the language'],['transcribing','Listening to the speech'],['translating','Translating to English'],['scoring','Scoring every sentence'],['emotions','Reading the emotions']];
+const STAGES_E = [['queued','Waiting for the GPU'],['planning','Planning the cut'],['snapping','Snapping cuts to word edges'],['rendering','Rendering the video']];
+
+function show(id){ ['v-upload','v-prog','v-ws'].forEach(v => $(v).hidden = v !== id); window.scrollTo({top:0}); }
+function banner(msg){ const b = $('banner'); b.hidden = !msg; b.textContent = msg || ''; }
+
+async function api(path, opts){
+  let r;
+  try { r = await fetch(API + path, opts); }
+  catch(e){ throw new Error('Cannot reach the backend. Start server.py and reload this page.'); }
+  let j = {}; try { j = await r.json(); } catch(e){}
+  if (!r.ok) throw new Error(j.error || ('Request failed (' + r.status + ')'));
+  return j;
+}
+
+/* ---------- boot ---------- */
+async function boot(){
+  try {
+    await api('/health'); $('dot').className = 'dot ok'; $('stext').textContent = 'Backend connected';
+    const s = await api('/signals');
+    s.available.forEach(n => { const o = document.createElement('option'); o.value = n; o.textContent = 'Use ' + n; $('sig').appendChild(o); });
+  } catch(e){ $('dot').className = 'dot bad'; $('stext').textContent = 'Backend offline'; banner(e.message); }
+  const jid = new URLSearchParams(location.search).get('job');
+  if (jid) { try { const j = await api('/jobs/' + jid); if (j.stage === 'done') openWorkspace(j.result); } catch(e){} }
+}
+
+/* ---------- upload ---------- */
+const drop = $('drop'), fileIn = $('file');
+function setFile(f){
+  state.file = f; drop.classList.toggle('has', !!f);
+  $('dname').textContent = f ? f.name : 'Drop a video here or choose a file';
+  $('dsub').textContent = f ? (f.size / 1048576).toFixed(1) + ' MB. Choose another to replace it.' : 'MP4, MOV, MKV, WebM, or audio';
+  $('go').disabled = !f;
+}
+fileIn.onchange = () => setFile(fileIn.files[0]);
+drop.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileIn.click(); } };
+['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => { if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]); });
+
+function renderStages(ul, defs, stage){
+  const idx = defs.findIndex(d => d[0] === stage);
+  ul.innerHTML = defs.map((d, i) => `<li class="${i < idx ? 'done' : i === idx ? 'now' : ''}"><span class="pip"></span>${d[1]}</li>`).join('');
+}
+
+async function poll(id, defs, ul){
+  for(;;){
+    const j = await api('/jobs/' + id);
+    if (j.stage === 'error') throw new Error(j.error || 'The job failed.');
+    if (j.stage === 'done') return j.result;
+    renderStages(ul, defs, j.stage);
+    await new Promise(r => setTimeout(r, 1000));
+  }
+}
+
+$('upform').onsubmit = async e => {
+  e.preventDefault(); if (!state.file) return;
+  banner(''); show('v-prog'); $('perr').hidden = true; $('pback').hidden = true; $('ptitle').textContent = 'Analyzing your video';
+  renderStages($('pstages'), STAGES_A, 'queued');
+  try {
+    const fd = new FormData();
+    fd.append('video', state.file); fd.append('lang', $('lang').value); fd.append('signals', $('sig').value);
+    const r = await api('/analyze', { method: 'POST', body: fd });
+    const res = await poll(r.job_id, STAGES_A, $('pstages'));
+    openWorkspace(res);
+  } catch(err){
+    $('ptitle').textContent = 'Analysis stopped'; $('perr').textContent = err.message + ' Check the server window for details, then start over.';
+    $('perr').hidden = false; $('pback').hidden = false;
+  }
+};
+$('pback').onclick = () => show('v-upload');
+
+/* ---------- workspace ---------- */
+function openWorkspace(res){
+  state.res = res; state.versions = []; state.cur = -1;
+  show('v-ws');
+  $('vid').src = API + res.video_url;
+  $('vname').textContent = 'Original, ' + fmt(res.duration) + (res.language_name ? ', ' + res.language_name + (res.language_detected ? ' (detected)' : '') : '');
+  const bn = [];
+  if (res.language_uncertain) bn.push('The language detector was not sure (' + Math.round((res.language_confidence || 0) * 100) + '%). If the transcript looks wrong, start over and choose the language yourself.');
+  if (res.emotions && res.emotions.backend === 'lexicon') bn.push('The emotion model could not load, so basic keyword matching is in use. Accuracy is lower until the model downloads.');
+  banner(bn.join(' '));
+  setupEmotions(res);
+  const sig = res.signals_used || {};
+  $('usesig').checked = !!sig.visual; $('usesig').disabled = !sig.visual;
+  $('usehint').textContent = sig.visual ? 'Visual scores' + (sig.word_snap ? ' and word timings are available for this video.' : ' are available for this video.') : 'No signal files were found for this video, so the editor reads the transcript only.';
+  $('tlnote').textContent = sig.visual ? 'Visual energy from CLIP and VideoMAE, speech scored per sentence.' : 'No visual signals for this video. Speech scores only.';
+  $('res').hidden = true; $('l-ed').hidden = true; $('l-edlab').hidden = true;
+  drawTimeline(); drawLists();
+}
+
+function setupEmotions(res){
+  const em = res.emotions || { counts: {}, seconds: {}, present: [], first: {} };
+  state.emo = (em.present && em.present[0]) || 'sadness';
+  $('emochips').innerHTML = EMOS.map(e => `<button type="button" class="chip${em.counts[e] ? '' : ' none'}" aria-pressed="${e === state.emo}" data-v="${e}"><i class="edot" style="background:${ecol(e)}"></i>${cap(e)} (${em.counts[e] || 0})</button>`).join('');
+  document.querySelectorAll('#emochips .chip').forEach(c => c.onclick = () => pickEmotion(c.dataset.v));
+  $('emsum').innerHTML = EMOS.map(e => `<button type="button" data-e="${e}" class="${em.counts[e] ? '' : 'none'}" ${em.counts[e] ? '' : 'tabindex="-1"'}><i class="edot" style="background:${ecol(e)}"></i>${cap(e)}: ${em.counts[e] ? em.counts[e] + ' sentences, ' + Math.round(em.seconds[e]) + ' s' : 'none found'}</button>`).join('');
+  document.querySelectorAll('#emsum button').forEach(b => b.onclick = () => { const f = (em.first || {})[b.dataset.e]; if (f !== undefined) { vid.currentTime = f; vid.play().catch(()=>{}); } });
+  setMode('summary'); $('nofound') && $('nofound').remove();
+}
+function pickEmotion(e){ state.emo = e; document.querySelectorAll('#emochips .chip').forEach(o => o.setAttribute('aria-pressed', o.dataset.v === e)); }
+function setMode(m){
+  state.mode = m;
+  document.querySelectorAll('#mode .chip').forEach(o => o.setAttribute('aria-pressed', o.dataset.v === m));
+  $('m-emo').hidden = m !== 'emotion'; $('m-aud').hidden = m === 'emotion';
+  $('modehint').textContent = m === 'emotion'
+    ? 'A short built only from moments where one emotion is clearly present.'
+    : 'A teaser that covers every emotion in the video and makes people want to watch the rest.';
+}
+document.querySelectorAll('#mode .chip').forEach(c => c.onclick = () => setMode(c.dataset.v));
+
+
+const D = () => state.res.duration || (state.res.sentences.length ? state.res.sentences[state.res.sentences.length - 1].end : 1);
+const pct = t => (t / D() * 100);
+
+function drawTimeline(){
+  const r = state.res, d = D();
+  $('l-vis').innerHTML = (r.visual_timeline || []).map(v => `<div class="b" style="left:${pct(v.start)}%;width:${(pct(v.end - v.start)).toFixed(3)}%;height:${6 + 94 * Math.min(1, Math.max(0, v.score))}%"></div>`).join('');
+  const topSet = new Set((r.top_moments || []).map(t => t.start));
+  $('l-sp').innerHTML = r.sentences.map((s, i) => `<div class="s${topSet.has(s.start) ? ' top' : ''}" data-i="${i}" style="left:${pct(s.start)}%;width:${pct(s.end - s.start).toFixed(3)}%;opacity:${(.18 + .82 * Math.min(1, Math.max(0, s.score))).toFixed(2)}"></div>`).join('');
+  $('l-em').innerHTML = r.sentences.filter(s => s.emotion).map(s => `<div class="em-b" style="left:${pct(s.start)}%;width:${pct(s.end - s.start).toFixed(3)}%;background:${ecol(s.emotion)};opacity:${(.45 + .55 * Math.min(1, s.emotion_p || 0)).toFixed(2)}"></div>`).join('');
+  const step = d > 600 ? 120 : d > 240 ? 60 : d > 90 ? 20 : 10;
+  let tk = ''; for (let t = 0; t <= d; t += step) tk += `<i style="left:${pct(t)}%">${fmt(t)}</i>`;
+  $('ruler').innerHTML = tk;
+  drawEditLane();
+  ['l-vis','l-sp','l-em'].forEach(id => { const h = document.createElement('div'); h.className = 'head'; $(id).appendChild(h); });
+}
+function drawEditLane(){
+  const lane = $('l-ed'); const v = state.versions[state.cur];
+  lane.hidden = $('l-edlab').hidden = !v; $('legend').querySelectorAll('.ed-leg').forEach(n => n.remove());
+  if (!v) { lane.innerHTML = ''; return; }
+  lane.innerHTML = v.edl.map(x => `<div class="${x.action === 'keep' ? 'k' : 'c'}" style="left:${pct(x.start)}%;width:${pct(x.end - x.start).toFixed(3)}%"></div>`).join('');
+  const h = document.createElement('div'); h.className = 'head'; lane.appendChild(h);
+  $('legend').insertAdjacentHTML('beforeend', '<span class="ed-leg"><i class="sw k"></i>Kept</span><span class="ed-leg"><i class="sw c"></i>Cut</span>');
+}
+
+/* playhead + scrubbing + tooltip */
+const vid = $('vid');
+function movePlayhead(){
+  const x = pct(vid.currentTime || 0) + '%';
+  document.querySelectorAll('.head').forEach(h => h.style.left = x);
+  const t = vid.currentTime || 0;
+  document.querySelectorAll('#tr .li').forEach(li => li.classList.toggle('now', t >= +li.dataset.s && t < +li.dataset.e));
+}
+vid.addEventListener('timeupdate', movePlayhead);
+vid.addEventListener('seeked', movePlayhead);
+function timeAt(lane, ev){ const b = lane.getBoundingClientRect(); return Math.min(D(), Math.max(0, (ev.clientX - b.left) / b.width * D())); }
+['l-vis','l-sp','l-em','l-ed'].forEach(id => {
+  const lane = $(id);
+  lane.style.cursor = 'pointer';
+  lane.addEventListener('click', ev => { vid.currentTime = timeAt(lane, ev); });
+  lane.addEventListener('mousemove', ev => {
+    const t = timeAt(lane, ev); const tip = $('tip'); let html = fmt(t);
+    const s = state.res.sentences.find(s => t >= s.start && t < s.end);
+    if (s) html += '<br>' + esc(s.text) + '<br>Score ' + Math.round(s.score * 100) + (s.emotion ? '<br>' + cap(s.emotion) + ' ' + Math.round((s.emotion_p || 0) * 100) + '%' : '');
+    const v = state.versions[state.cur];
+    if (id === 'l-ed' && v) { const x = v.edl.find(x => t >= x.start && t < x.end); if (x) html = fmt(x.start) + ' to ' + fmt(x.end) + ': ' + (x.action === 'keep' ? 'Keep' : 'Cut') + '<br>' + esc(x.reason); }
+    tip.innerHTML = html; tip.hidden = false;
+    tip.style.left = Math.min(innerWidth - 320, ev.clientX + 14) + 'px'; tip.style.top = (ev.clientY + 16) + 'px';
+  });
+  lane.addEventListener('mouseleave', () => $('tip').hidden = true);
+});
+
+function drawLists(){
+  const r = state.res;
+  $('top').innerHTML = (r.top_moments || []).map(s => `<div class="li" data-s="${s.start}" style="grid-template-columns:62px 1fr 34px"><time>${fmt(s.start)}</time><span>${esc(s.text)}</span><span class="sc">${Math.round(s.score * 100)}</span></div>`).join('') || '<p class="note" style="padding:8px">No moments scored yet.</p>';
+  $('tr').innerHTML = r.sentences.map(s => `<div class="li" data-s="${s.start}" data-e="${s.end}"><time>${fmt(s.start)}</time><span>${s.emotion ? `<span class="etag"><i class="edot" style="background:${ecol(s.emotion)}"></i>${cap(s.emotion)}</span>` : ''}${esc(s.text)}</span><span class="sc">${Math.round(s.score * 100)}</span></div>`).join('');
+  document.querySelectorAll('#top .li,#tr .li').forEach(li => li.onclick = () => { vid.currentTime = +li.dataset.s; vid.play().catch(()=>{}); });
+  markKept();
+}
+function markKept(){
+  const v = state.versions[state.cur];
+  document.querySelectorAll('#tr .li').forEach(li => {
+    const s = +li.dataset.s, e = +li.dataset.e;
+    li.classList.toggle('kept', !!v && v.edl.some(x => x.action === 'keep' && x.start < e && x.end > s));
+  });
+}
+
+/* ---------- edit form ---------- */
+document.querySelectorAll('#aud .chip').forEach(c => c.onclick = () => {
+  document.querySelectorAll('#aud .chip').forEach(o => o.setAttribute('aria-pressed', o === c));
+  $('audc').hidden = c.dataset.v !== 'custom'; if (c.dataset.v === 'custom') $('audc').focus();
+});
+$('len').oninput = () => $('lenout').textContent = $('len').value + ' s';
+function audience(){
+  const c = document.querySelector('#aud .chip[aria-pressed=true]').dataset.v;
+  if (c !== 'custom') return c;
+  return ($('audc').value.trim().replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'general');
+}
+
+$('edform').onsubmit = async e => {
+  e.preventDefault(); $('eerr').hidden = true; $('mk').disabled = true; $('editing').classList.add('on');
+  renderStages($('estages'), STAGES_E, 'queued');
+  const body = { job_id: state.res.job_id, mode: state.mode, emotion: state.mode === 'emotion' ? state.emo : '', audience: audience(), target_seconds: +$('len').value, style: $('style').value.trim(), requirements: $('req').value.trim(), use_signals: $('usesig').checked };
+  try {
+    const r = await api('/edit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const out = await poll(r.edit_id, STAGES_E, $('estages'));
+    $('nofound') && $('nofound').remove();
+    if (out.found === false) { showNotFound(out); $('mk').disabled = false; $('editing').classList.remove('on'); return; }
+    state.versions.push(out); state.cur = state.versions.length - 1;
+    showVersion();
+    $('res').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch(err){ $('eerr').textContent = err.message; $('eerr').hidden = false; }
+  $('mk').disabled = false; $('editing').classList.remove('on');
+};
+
+function showNotFound(o){
+  const have = (o.available || []).map(a => `<button type="button" class="chip" data-e="${a.emotion}"><i class="edot" style="background:${ecol(a.emotion)}"></i>${cap(a.emotion)} (${a.sentences})</button>`).join('');
+  const d = document.createElement('div'); d.id = 'nofound'; d.className = 'nofound';
+  d.innerHTML = `<b>${esc(o.message)}</b><span class="note">${have ? 'Emotions that are in this video:' : 'No clear emotion was detected anywhere in this video.'}</span>${have ? `<div class="chips" style="margin-top:8px">${have}</div>` : ''}`;
+  $('edform').appendChild(d);
+  d.querySelectorAll('.chip').forEach(c => c.onclick = () => pickEmotion(c.dataset.e));
+}
+
+function showVersion(){
+  const v = state.versions[state.cur]; if (!v) return;
+  $('res').hidden = false;
+  $('vers').innerHTML = state.versions.map((x, i) => `<button type="button" class="chip" aria-pressed="${i === state.cur}" data-i="${i}">${esc(x.mode === 'emotion' ? x.emotion : x.audience.replace(/-/g, ' '))}, ${Math.round(x.kept_seconds)} s</button>`).join('');
+  document.querySelectorAll('#vers .chip').forEach(c => c.onclick = () => { state.cur = +c.dataset.i; showVersion(); });
+  $('svid').src = API + v.video_url; $('dl').href = API + v.video_url;
+  const keeps = v.edl.filter(x => x.action === 'keep').length;
+  const pctOf = Math.round(v.kept_seconds / D() * 100);
+  $('stat').innerHTML = `<div><b>${v.kept_seconds.toFixed(1)} s</b>kept, target ${Math.round(v.target_seconds)} s</div><div><b>${keeps}</b>${keeps === 1 ? 'clip' : 'clips'} joined</div><div><b>${pctOf}%</b>of the original</div>` +
+    (v.mode === 'summary' ? `<div><b>${(v.emotions_in_short || []).length} of ${(v.emotions_in_video || []).length}</b>emotions in the short</div>` : '');
+  const cov = $('cov'); if (cov) cov.remove();
+  const bits = [];
+  if (v.mode === 'summary' && (v.emotions_in_short || []).length) bits.push('Emotions covered: ' + v.emotions_in_short.map(cap).join(', ') + '.');
+  if (v.note) bits.push(v.note);
+  if (v.story) bits.push('Story: ' + v.story);
+  if (bits.length) $('stat').insertAdjacentHTML('afterend', '<p class="note" id="cov" style="margin:-4px 0 14px">' + bits.map(esc).join(' ') + '</p>');
+  $('dec').innerHTML = v.edl.map(x => `<div class="li dec${x.action === 'keep' ? ' kept' : ''}" data-s="${x.start}"><time>${fmt(x.start)}<br>${fmt(x.end)}</time><span><span class="tag ${x.action}">${x.action === 'keep' ? 'Keep' : 'Cut'}</span>${x.role ? `<span class="tag role">${esc(x.role)}</span>` : ''}<span class="why">${esc(x.reason)}</span></span></div>`).join('');
+  document.querySelectorAll('#dec .li').forEach(li => li.onclick = () => { vid.currentTime = +li.dataset.s; vid.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+  drawEditLane(); markKept();
+}
+
+boot();
+</script>
+</body>
+</html>

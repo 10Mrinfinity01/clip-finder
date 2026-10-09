@@ -1,11 +1,12 @@
+﻿.env
 venv/
-.env
+uploads/
 clips/
 cache/
 __pycache__/
-*.pyc
 *.mp4
+*.m4a
 *.mp3
-*.wav
-music/
-uploads/
+peek.py
+dump.txt
+emotoin.py
