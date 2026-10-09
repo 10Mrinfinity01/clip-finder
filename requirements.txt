@@ -1,6 +1,8 @@
-faster-whisper
-pydub
-moviepy
 numpy
-flask
-python-dotenv
+torch
+transformers
+decord
+opencv-python
+open-clip-torch
+Pillow
+sentencepiece
