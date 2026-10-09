@@ -255,11 +255,33 @@ def build_sentences(segments, max_words=25, gap=0.8):
                 flush()
     flush()
     return sentences
-def ask_agnes_edl(segments, audience="general", target_seconds=45, model="agnes-3.0-flash"):
+def ask_agnes_edl(segments, audience="general", target_seconds=45, model="agnes-3.0-flash",
+                  visual=None, style="", requirements=""):
     sents = build_sentences(segments)
-    transcript_text = "\n".join(
-        f"[{i}] ({s['start']:.1f}-{s['end']:.1f}s) {s['text']}" for i, s in enumerate(sents)
-    )
+    interest = [None] * len(sents)
+    if visual:
+        import fusion
+        interest = [fusion._overlap_peak_mean(visual, "visual", s["start"], s["end"])
+                    for s in sents]
+
+    def _line(i, s):
+        base = f"[{i}] ({s['start']:.1f}-{s['end']:.1f}s) {s['text']}"
+        if interest[i] is not None:
+            base += f"  <visual {int(round(interest[i] * 100))}>"
+        return base
+
+    transcript_text = "\n".join(_line(i, s) for i, s in enumerate(sents))
+    extra = ""
+    if visual:
+        extra += ("Some sentences end with <visual N>, a 0-100 score of how visually engaging "
+                  "the video is at that moment (from computer-vision analysis). Prefer sentences "
+                  "with high visual scores for the hook and escalation, but never break the "
+                  "story rules above for a high score. ")
+    if style:
+        extra += f"Requested style: {style}. "
+    if requirements:
+        extra += f"Extra requirements from the user: {requirements}. "
+    extra += "Ignore repeated or garbled lines. "
     system_prompt = (
         "You are an AI editor's copilot. The transcript below is split into numbered "
         f"sentences. Plan a promotional short of about {target_seconds} seconds for the "
@@ -278,6 +300,7 @@ def ask_agnes_edl(segments, audience="general", target_seconds=45, model="agnes-
         "inclusive), 'action' ('keep' or 'cut'), 'role', and 'reason' (one English "
         "sentence)). No prose outside the JSON."
     )
+    system_prompt += " " + extra
     resp = requests.post(
         f"{AGNES_BASE_URL}/chat/completions",
         headers={"Authorization": f"Bearer {AGNES_API_KEY}", "Content-Type": "application/json"},
@@ -428,22 +451,37 @@ def main():
     if query.lower().strip() == "short":
         audience = sys.argv[7] if len(sys.argv) > 7 else "general"
         target = float(sys.argv[8]) if len(sys.argv) > 8 else 45.0
+        signals_dir = sys.argv[9] if len(sys.argv) > 9 and sys.argv[9].lower() != "none" else None
+        style = sys.argv[10] if len(sys.argv) > 10 else ""
+        requirements = sys.argv[11] if len(sys.argv) > 11 else ""
+        visual, words = None, None
+        if signals_dir:
+            import signals_loader as sl
+            visual = sl.load_visual(signals_dir)
+            words = sl.load_words(signals_dir)
+            print(f"[+] Laptop B signals: {len(visual)} visual windows, {len(words)} words")
         agnes_segments = segments
         if lang and lang != "en":
             print("[+] Translating to English for story analysis...")
             agnes_segments = transcribe(file_path, model_size, lang, task="translate")
-        edl = ask_agnes_edl(agnes_segments, audience, target)
+        edl = ask_agnes_edl(agnes_segments, audience, target,
+                            visual=visual, style=style, requirements=requirements)
+        if words:
+            edl = [sl.snap_edl([x], words)[0] if x["action"] == "keep" else x for x in edl]
         os.makedirs("clips", exist_ok=True)
         print("\n--- Edit Decision List ---")
         for item in edl:
             print(f"{item['action'].upper():5} {item['start']:.2f}-{item['end']:.2f} "
                   f"[{item['role']}] {item['reason']}")
         ext_out = ".mp4" if is_video else ".mp3"
-        out_path = os.path.join("clips", f"short_{audience}{ext_out}")
+        tag = "_signals" if signals_dir else ""
+        out_path = os.path.join("clips", f"short_{audience}{tag}{ext_out}")
         ok = assemble_short(file_path, edl, out_path, is_video)
-        with open(os.path.join("clips", "short_edl.json"), "w", encoding="utf-8") as f:
+        with open(os.path.join("clips", f"short_edl{tag}.json"), "w", encoding="utf-8") as f:
             json.dump({"source_file": file_path, "audience": audience,
-                       "target_seconds": target, "edl": edl}, f, indent=2, ensure_ascii=False)
+                       "target_seconds": target, "style": style,
+                       "requirements": requirements, "edl": edl},
+                      f, indent=2, ensure_ascii=False)
         print(f"[+] Short saved to {out_path}" if ok else "[!] No KEEP segments returned.")
         return
     emotion_mode = query.lower().strip() == "emotions"
