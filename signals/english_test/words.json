@@ -1,0 +1,1484 @@
+{
+  "source": "english_test_whisper_words.json.",
+  "model": "Faster-Whisper large-v3",
+  "language": "en",
+  "max_word_duration": 3.0,
+  "total_words": 294,
+  "valid_words": 293,
+  "rejected_words": 1,
+  "words": [
+    {
+      "start": 0.0,
+      "end": 0.34,
+      "word": " Hello"
+    },
+    {
+      "start": 0.34,
+      "end": 0.66,
+      "word": " everyone,"
+    },
+    {
+      "start": 0.78,
+      "end": 1.56,
+      "word": " I'm"
+    },
+    {
+      "start": 1.56,
+      "end": 1.84,
+      "word": " Nikhil."
+    },
+    {
+      "start": 3.08,
+      "end": 3.48,
+      "word": " Today,"
+    },
+    {
+      "start": 3.48,
+      "end": 3.88,
+      "word": " imagine"
+    },
+    {
+      "start": 3.88,
+      "end": 4.24,
+      "word": " that"
+    },
+    {
+      "start": 4.24,
+      "end": 4.58,
+      "word": " you've"
+    },
+    {
+      "start": 4.58,
+      "end": 4.72,
+      "word": " got"
+    },
+    {
+      "start": 4.72,
+      "end": 4.82,
+      "word": " a"
+    },
+    {
+      "start": 4.82,
+      "end": 5.16,
+      "word": " project"
+    },
+    {
+      "start": 5.16,
+      "end": 6.02,
+      "word": " to"
+    },
+    {
+      "start": 6.02,
+      "end": 6.22,
+      "word": " build"
+    },
+    {
+      "start": 6.22,
+      "end": 6.34,
+      "word": " an"
+    },
+    {
+      "start": 6.34,
+      "end": 6.5,
+      "word": " app"
+    },
+    {
+      "start": 6.5,
+      "end": 7.1,
+      "word": " to"
+    },
+    {
+      "start": 7.1,
+      "end": 7.48,
+      "word": " manage"
+    },
+    {
+      "start": 7.48,
+      "end": 7.8,
+      "word": " a"
+    },
+    {
+      "start": 7.8,
+      "end": 8.14,
+      "word": " library."
+    },
+    {
+      "start": 8.92,
+      "end": 9.32,
+      "word": " In"
+    },
+    {
+      "start": 9.32,
+      "end": 9.46,
+      "word": " order"
+    },
+    {
+      "start": 9.46,
+      "end": 9.56,
+      "word": " to"
+    },
+    {
+      "start": 9.56,
+      "end": 9.8,
+      "word": " manage"
+    },
+    {
+      "start": 9.8,
+      "end": 9.94,
+      "word": " a"
+    },
+    {
+      "start": 9.94,
+      "end": 10.18,
+      "word": " library,"
+    },
+    {
+      "start": 10.46,
+      "end": 11.38,
+      "word": " what"
+    },
+    {
+      "start": 11.38,
+      "end": 11.52,
+      "word": " do"
+    },
+    {
+      "start": 11.52,
+      "end": 11.6,
+      "word": " you"
+    },
+    {
+      "start": 11.6,
+      "end": 11.84,
+      "word": " need?"
+    },
+    {
+      "start": 12.4,
+      "end": 12.8,
+      "word": " You"
+    },
+    {
+      "start": 12.8,
+      "end": 12.96,
+      "word": " need"
+    },
+    {
+      "start": 12.96,
+      "end": 13.1,
+      "word": " to"
+    },
+    {
+      "start": 13.1,
+      "end": 13.58,
+      "word": " have"
+    },
+    {
+      "start": 13.58,
+      "end": 13.88,
+      "word": " a"
+    },
+    {
+      "start": 13.88,
+      "end": 14.08,
+      "word": " track"
+    },
+    {
+      "start": 14.08,
+      "end": 14.22,
+      "word": " on"
+    },
+    {
+      "start": 14.22,
+      "end": 14.36,
+      "word": " each"
+    },
+    {
+      "start": 14.36,
+      "end": 14.44,
+      "word": " and"
+    },
+    {
+      "start": 14.44,
+      "end": 14.56,
+      "word": " every"
+    },
+    {
+      "start": 14.56,
+      "end": 14.8,
+      "word": " book,"
+    },
+    {
+      "start": 14.82,
+      "end": 15.02,
+      "word": " isn't"
+    },
+    {
+      "start": 15.74,
+      "end": 16.14,
+      "word": " In"
+    },
+    {
+      "start": 16.14,
+      "end": 16.28,
+      "word": " order"
+    },
+    {
+      "start": 16.28,
+      "end": 16.4,
+      "word": " to"
+    },
+    {
+      "start": 16.4,
+      "end": 16.48,
+      "word": " have"
+    },
+    {
+      "start": 16.48,
+      "end": 16.58,
+      "word": " a"
+    },
+    {
+      "start": 16.58,
+      "end": 16.74,
+      "word": " track"
+    },
+    {
+      "start": 16.74,
+      "end": 16.88,
+      "word": " on"
+    },
+    {
+      "start": 16.88,
+      "end": 17.02,
+      "word": " each"
+    },
+    {
+      "start": 17.02,
+      "end": 17.1,
+      "word": " and"
+    },
+    {
+      "start": 17.1,
+      "end": 17.2,
+      "word": " every"
+    },
+    {
+      "start": 17.2,
+      "end": 17.46,
+      "word": " book,"
+    },
+    {
+      "start": 17.56,
+      "end": 17.94,
+      "word": " you"
+    },
+    {
+      "start": 17.94,
+      "end": 18.1,
+      "word": " need"
+    },
+    {
+      "start": 18.1,
+      "end": 18.24,
+      "word": " to"
+    },
+    {
+      "start": 18.24,
+      "end": 18.38,
+      "word": " know"
+    },
+    {
+      "start": 18.38,
+      "end": 18.52,
+      "word": " the"
+    },
+    {
+      "start": 18.52,
+      "end": 18.8,
+      "word": " title,"
+    },
+    {
+      "start": 18.96,
+      "end": 19.42,
+      "word": " the"
+    },
+    {
+      "start": 19.42,
+      "end": 19.78,
+      "word": " author,"
+    },
+    {
+      "start": 19.86,
+      "end": 20.26,
+      "word": " and"
+    },
+    {
+      "start": 20.26,
+      "end": 20.36,
+      "word": " the"
+    },
+    {
+      "start": 20.36,
+      "end": 20.6,
+      "word": " price"
+    },
+    {
+      "start": 20.6,
+      "end": 21.04,
+      "word": " of"
+    },
+    {
+      "start": 21.04,
+      "end": 21.18,
+      "word": " the"
+    },
+    {
+      "start": 21.18,
+      "end": 21.34,
+      "word": " book."
+    },
+    {
+      "start": 22.54,
+      "end": 22.94,
+      "word": " And,"
+    },
+    {
+      "start": 22.94,
+      "end": 23.16,
+      "word": " you"
+    },
+    {
+      "start": 23.16,
+      "end": 23.36,
+      "word": " know,"
+    },
+    {
+      "start": 23.46,
+      "end": 23.66,
+      "word": " in"
+    },
+    {
+      "start": 23.66,
+      "end": 24.06,
+      "word": " basic"
+    },
+    {
+      "start": 24.06,
+      "end": 24.22,
+      "word": " C"
+    },
+    {
+      "start": 24.22,
+      "end": 24.48,
+      "word": " programming,"
+    },
+    {
+      "start": 24.84,
+      "end": 25.54,
+      "word": " you"
+    },
+    {
+      "start": 25.54,
+      "end": 25.7,
+      "word": " need"
+    },
+    {
+      "start": 25.7,
+      "end": 25.82,
+      "word": " to"
+    },
+    {
+      "start": 25.82,
+      "end": 26.08,
+      "word": " declare"
+    },
+    {
+      "start": 26.08,
+      "end": 26.38,
+      "word": " all"
+    },
+    {
+      "start": 26.38,
+      "end": 26.62,
+      "word": " these"
+    },
+    {
+      "start": 26.62,
+      "end": 26.96,
+      "word": " three"
+    },
+    {
+      "start": 26.96,
+      "end": 27.58,
+      "word": " separately"
+    },
+    {
+      "start": 27.58,
+      "end": 28.04,
+      "word": " for"
+    },
+    {
+      "start": 28.04,
+      "end": 28.28,
+      "word": " each"
+    },
+    {
+      "start": 28.28,
+      "end": 28.44,
+      "word": " and"
+    },
+    {
+      "start": 28.44,
+      "end": 28.62,
+      "word": " every"
+    },
+    {
+      "start": 28.62,
+      "end": 28.94,
+      "word": " book."
+    },
+    {
+      "start": 28.94,
+      "end": 29.64,
+      "word": " This"
+    },
+    {
+      "start": 29.64,
+      "end": 29.76,
+      "word": " is"
+    },
+    {
+      "start": 29.76,
+      "end": 29.84,
+      "word": " going"
+    },
+    {
+      "start": 29.84,
+      "end": 29.96,
+      "word": " to"
+    },
+    {
+      "start": 29.96,
+      "end": 30.08,
+      "word": " be"
+    },
+    {
+      "start": 30.08,
+      "end": 30.26,
+      "word": " a"
+    },
+    {
+      "start": 30.26,
+      "end": 30.52,
+      "word": " really"
+    },
+    {
+      "start": 30.52,
+      "end": 30.72,
+      "word": " hard"
+    },
+    {
+      "start": 30.72,
+      "end": 31.02,
+      "word": " task."
+    },
+    {
+      "start": 31.38,
+      "end": 31.9,
+      "word": " This"
+    },
+    {
+      "start": 31.9,
+      "end": 32.04,
+      "word": " is"
+    },
+    {
+      "start": 32.04,
+      "end": 32.22,
+      "word": " where"
+    },
+    {
+      "start": 32.22,
+      "end": 33.28,
+      "word": " structures"
+    },
+    {
+      "start": 33.28,
+      "end": 33.54,
+      "word": " come"
+    },
+    {
+      "start": 33.54,
+      "end": 33.72,
+      "word": " in."
+    },
+    {
+      "start": 34.76,
+      "end": 35.28,
+      "word": " Structures"
+    },
+    {
+      "start": 35.28,
+      "end": 35.8,
+      "word": " allows"
+    },
+    {
+      "start": 35.8,
+      "end": 36.1,
+      "word": " you"
+    },
+    {
+      "start": 36.1,
+      "end": 36.76,
+      "word": " to"
+    },
+    {
+      "start": 36.76,
+      "end": 37.3,
+      "word": " specify"
+    },
+    {
+      "start": 37.3,
+      "end": 37.68,
+      "word": " these"
+    },
+    {
+      "start": 37.68,
+      "end": 38.38,
+      "word": " separate"
+    },
+    {
+      "start": 38.38,
+      "end": 39.18,
+      "word": " variables"
+    },
+    {
+      "start": 39.18,
+      "end": 39.58,
+      "word": " or"
+    },
+    {
+      "start": 39.58,
+      "end": 39.8,
+      "word": " data"
+    },
+    {
+      "start": 39.8,
+      "end": 40.12,
+      "word": " names"
+    },
+    {
+      "start": 40.12,
+      "end": 40.76,
+      "word": " in"
+    },
+    {
+      "start": 40.76,
+      "end": 40.86,
+      "word": " a"
+    },
+    {
+      "start": 40.86,
+      "end": 41.24,
+      "word": " single"
+    },
+    {
+      "start": 41.24,
+      "end": 41.54,
+      "word": " name"
+    },
+    {
+      "start": 41.54,
+      "end": 41.76,
+      "word": " or"
+    },
+    {
+      "start": 41.76,
+      "end": 41.88,
+      "word": " a"
+    },
+    {
+      "start": 41.88,
+      "end": 42.08,
+      "word": " single"
+    },
+    {
+      "start": 42.08,
+      "end": 42.84,
+      "word": " folder"
+    },
+    {
+      "start": 42.84,
+      "end": 43.22,
+      "word": " in"
+    },
+    {
+      "start": 43.22,
+      "end": 43.32,
+      "word": " a"
+    },
+    {
+      "start": 43.32,
+      "end": 43.6,
+      "word": " sense."
+    },
+    {
+      "start": 43.7,
+      "end": 43.88,
+      "word": " All"
+    },
+    {
+      "start": 43.88,
+      "end": 44.06,
+      "word": " these"
+    },
+    {
+      "start": 44.06,
+      "end": 44.4,
+      "word": " files"
+    },
+    {
+      "start": 44.4,
+      "end": 44.94,
+      "word": " will"
+    },
+    {
+      "start": 44.94,
+      "end": 45.1,
+      "word": " be"
+    },
+    {
+      "start": 45.1,
+      "end": 45.28,
+      "word": " sorted"
+    },
+    {
+      "start": 45.28,
+      "end": 45.5,
+      "word": " in"
+    },
+    {
+      "start": 45.5,
+      "end": 45.58,
+      "word": " a"
+    },
+    {
+      "start": 45.58,
+      "end": 45.78,
+      "word": " single"
+    },
+    {
+      "start": 45.78,
+      "end": 46.16,
+      "word": " folder"
+    },
+    {
+      "start": 46.16,
+      "end": 46.96,
+      "word": " where"
+    },
+    {
+      "start": 46.96,
+      "end": 47.16,
+      "word": " you"
+    },
+    {
+      "start": 47.16,
+      "end": 47.34,
+      "word": " can"
+    },
+    {
+      "start": 47.34,
+      "end": 47.8,
+      "word": " customize"
+    },
+    {
+      "start": 47.8,
+      "end": 48.06,
+      "word": " your"
+    },
+    {
+      "start": 48.06,
+      "end": 48.26,
+      "word": " own"
+    },
+    {
+      "start": 48.26,
+      "end": 48.6,
+      "word": " data"
+    },
+    {
+      "start": 48.6,
+      "end": 48.84,
+      "word": " type."
+    },
+    {
+      "start": 49.52,
+      "end": 50.04,
+      "word": " Now,"
+    },
+    {
+      "start": 50.06,
+      "end": 50.56,
+      "word": " let's"
+    },
+    {
+      "start": 50.56,
+      "end": 51.48,
+      "word": " simplify"
+    },
+    {
+      "start": 51.48,
+      "end": 51.72,
+      "word": " it"
+    },
+    {
+      "start": 51.72,
+      "end": 51.9,
+      "word": " more."
+    },
+    {
+      "start": 52.98,
+      "end": 53.5,
+      "word": " Take"
+    },
+    {
+      "start": 53.5,
+      "end": 54.02,
+      "word": " the"
+    },
+    {
+      "start": 54.02,
+      "end": 54.82,
+      "word": " structure"
+    },
+    {
+      "start": 54.82,
+      "end": 55.76,
+      "word": " as"
+    },
+    {
+      "start": 55.76,
+      "end": 55.9,
+      "word": " an"
+    },
+    {
+      "start": 55.9,
+      "end": 56.28,
+      "word": " example"
+    },
+    {
+      "start": 56.28,
+      "end": 56.7,
+      "word": " of"
+    },
+    {
+      "start": 56.7,
+      "end": 56.94,
+      "word": " your"
+    },
+    {
+      "start": 56.94,
+      "end": 58.02,
+      "word": " house"
+    },
+    {
+      "start": 58.02,
+      "end": 58.6,
+      "word": " blueprint."
+    },
+    {
+      "start": 59.36,
+      "end": 59.88,
+      "word": " So,"
+    },
+    {
+      "start": 59.88,
+      "end": 60.4,
+      "word": " this"
+    },
+    {
+      "start": 60.4,
+      "end": 60.72,
+      "word": " house"
+    },
+    {
+      "start": 60.72,
+      "end": 60.98,
+      "word": " blueprint"
+    },
+    {
+      "start": 60.98,
+      "end": 61.7,
+      "word": " doesn't"
+    },
+    {
+      "start": 61.7,
+      "end": 61.98,
+      "word": " contain"
+    },
+    {
+      "start": 61.98,
+      "end": 62.14,
+      "word": " the"
+    },
+    {
+      "start": 62.14,
+      "end": 62.28,
+      "word": " house"
+    },
+    {
+      "start": 62.28,
+      "end": 62.54,
+      "word": " itself."
+    },
+    {
+      "start": 63.04,
+      "end": 63.56,
+      "word": " It"
+    },
+    {
+      "start": 63.56,
+      "end": 63.98,
+      "word": " contains"
+    },
+    {
+      "start": 63.98,
+      "end": 64.54,
+      "word": " what"
+    },
+    {
+      "start": 64.54,
+      "end": 64.7,
+      "word": " the"
+    },
+    {
+      "start": 64.7,
+      "end": 64.94,
+      "word": " house"
+    },
+    {
+      "start": 64.94,
+      "end": 65.34,
+      "word": " contains."
+    },
+    {
+      "start": 65.72,
+      "end": 66.24,
+      "word": " Example,"
+    },
+    {
+      "start": 66.26,
+      "end": 66.46,
+      "word": " the"
+    },
+    {
+      "start": 66.46,
+      "end": 66.7,
+      "word": " rooms"
+    },
+    {
+      "start": 66.7,
+      "end": 66.92,
+      "word": " and"
+    },
+    {
+      "start": 66.92,
+      "end": 67.04,
+      "word": " the"
+    },
+    {
+      "start": 67.04,
+      "end": 67.26,
+      "word": " windows."
+    },
+    {
+      "start": 67.74,
+      "end": 68.26,
+      "word": " Now,"
+    },
+    {
+      "start": 68.32,
+      "end": 69.02,
+      "word": " let's"
+    },
+    {
+      "start": 69.02,
+      "end": 69.16,
+      "word": " come"
+    },
+    {
+      "start": 69.16,
+      "end": 69.82,
+      "word": " to"
+    },
+    {
+      "start": 69.82,
+      "end": 69.86,
+      "word": " the"
+    },
+    {
+      "start": 69.86,
+      "end": 70.18,
+      "word": " syntax."
+    },
+    {
+      "start": 70.88,
+      "end": 71.4,
+      "word": " How"
+    },
+    {
+      "start": 71.4,
+      "end": 71.56,
+      "word": " does"
+    },
+    {
+      "start": 71.56,
+      "end": 71.68,
+      "word": " the"
+    },
+    {
+      "start": 71.68,
+      "end": 71.9,
+      "word": " structure"
+    },
+    {
+      "start": 71.9,
+      "end": 72.16,
+      "word": " syntax"
+    },
+    {
+      "start": 72.16,
+      "end": 72.7,
+      "word": " exactly"
+    },
+    {
+      "start": 72.7,
+      "end": 73.24,
+      "word": " is"
+    },
+    {
+      "start": 73.24,
+      "end": 73.84,
+      "word": " or"
+    },
+    {
+      "start": 73.84,
+      "end": 74.22,
+      "word": " how"
+    },
+    {
+      "start": 74.22,
+      "end": 74.58,
+      "word": " it"
+    },
+    {
+      "start": 74.58,
+      "end": 74.74,
+      "word": " is"
+    },
+    {
+      "start": 74.74,
+      "end": 75.06,
+      "word": " represented?"
+    },
+    {
+      "start": 75.32,
+      "end": 75.54,
+      "word": " By"
+    },
+    {
+      "start": 75.54,
+      "end": 75.82,
+      "word": " taking"
+    },
+    {
+      "start": 75.82,
+      "end": 76.0,
+      "word": " the"
+    },
+    {
+      "start": 76.0,
+      "end": 76.32,
+      "word": " example"
+    },
+    {
+      "start": 76.32,
+      "end": 76.66,
+      "word": " of"
+    },
+    {
+      "start": 76.66,
+      "end": 77.38,
+      "word": " the"
+    },
+    {
+      "start": 77.38,
+      "end": 77.68,
+      "word": " first"
+    },
+    {
+      "start": 77.68,
+      "end": 78.14,
+      "word": " thing"
+    },
+    {
+      "start": 78.14,
+      "end": 78.28,
+      "word": " I"
+    },
+    {
+      "start": 78.28,
+      "end": 78.46,
+      "word": " told"
+    },
+    {
+      "start": 78.46,
+      "end": 78.64,
+      "word": " you,"
+    },
+    {
+      "start": 78.7,
+      "end": 79.12,
+      "word": " managing"
+    },
+    {
+      "start": 79.12,
+      "end": 79.3,
+      "word": " a"
+    },
+    {
+      "start": 79.3,
+      "end": 79.52,
+      "word": " library."
+    },
+    {
+      "start": 81.2,
+      "end": 81.72,
+      "word": " It"
+    },
+    {
+      "start": 81.72,
+      "end": 82.24,
+      "word": " starts"
+    },
+    {
+      "start": 82.24,
+      "end": 82.7,
+      "word": " with"
+    },
+    {
+      "start": 82.7,
+      "end": 82.8,
+      "word": " the"
+    },
+    {
+      "start": 82.8,
+      "end": 83.04,
+      "word": " struct,"
+    },
+    {
+      "start": 83.24,
+      "end": 83.74,
+      "word": " which"
+    },
+    {
+      "start": 83.74,
+      "end": 83.9,
+      "word": " is"
+    },
+    {
+      "start": 83.9,
+      "end": 84.42,
+      "word": " the"
+    },
+    {
+      "start": 84.42,
+      "end": 84.64,
+      "word": " data"
+    },
+    {
+      "start": 84.64,
+      "end": 84.88,
+      "word": " name"
+    },
+    {
+      "start": 84.88,
+      "end": 85.02,
+      "word": " or"
+    },
+    {
+      "start": 85.02,
+      "end": 85.18,
+      "word": " data"
+    },
+    {
+      "start": 85.18,
+      "end": 85.5,
+      "word": " type."
+    },
+    {
+      "start": 85.82,
+      "end": 86.34,
+      "word": " And"
+    },
+    {
+      "start": 86.34,
+      "end": 86.56,
+      "word": " the"
+    },
+    {
+      "start": 86.56,
+      "end": 86.86,
+      "word": " tag"
+    },
+    {
+      "start": 86.86,
+      "end": 87.06,
+      "word": " name,"
+    },
+    {
+      "start": 87.18,
+      "end": 87.56,
+      "word": " which"
+    },
+    {
+      "start": 87.56,
+      "end": 87.66,
+      "word": " is"
+    },
+    {
+      "start": 87.66,
+      "end": 88.06,
+      "word": " book."
+    },
+    {
+      "start": 88.94,
+      "end": 89.04,
+      "word": " And"
+    },
+    {
+      "start": 89.04,
+      "end": 89.16,
+      "word": " you"
+    },
+    {
+      "start": 89.16,
+      "end": 89.4,
+      "word": " open"
+    },
+    {
+      "start": 89.4,
+      "end": 89.56,
+      "word": " the"
+    },
+    {
+      "start": 89.56,
+      "end": 89.8,
+      "word": " braces"
+    },
+    {
+      "start": 89.8,
+      "end": 90.34,
+      "word": " and"
+    },
+    {
+      "start": 90.34,
+      "end": 90.6,
+      "word": " you"
+    },
+    {
+      "start": 90.6,
+      "end": 91.18,
+      "word": " declare"
+    },
+    {
+      "start": 91.18,
+      "end": 91.66,
+      "word": " the"
+    },
+    {
+      "start": 91.66,
+      "end": 92.06,
+      "word": " variables"
+    },
+    {
+      "start": 92.06,
+      "end": 92.74,
+      "word": " of"
+    },
+    {
+      "start": 92.74,
+      "end": 93.38,
+      "word": " different"
+    },
+    {
+      "start": 93.38,
+      "end": 93.7,
+      "word": " types."
+    },
+    {
+      "start": 94.1,
+      "end": 94.62,
+      "word": " Example,"
+    },
+    {
+      "start": 94.62,
+      "end": 95.06,
+      "word": " car,"
+    },
+    {
+      "start": 95.28,
+      "end": 95.58,
+      "word": " the"
+    },
+    {
+      "start": 95.58,
+      "end": 95.76,
+      "word": " book"
+    },
+    {
+      "start": 95.76,
+      "end": 95.98,
+      "word": " name,"
+    },
+    {
+      "start": 96.12,
+      "end": 97.12,
+      "word": " 50."
+    },
+    {
+      "start": 97.26,
+      "end": 97.6,
+      "word": " You"
+    },
+    {
+      "start": 97.6,
+      "end": 97.8,
+      "word": " can"
+    },
+    {
+      "start": 97.8,
+      "end": 98.02,
+      "word": " keep"
+    },
+    {
+      "start": 98.02,
+      "end": 98.16,
+      "word": " the"
+    },
+    {
+      "start": 98.16,
+      "end": 98.36,
+      "word": " book"
+    },
+    {
+      "start": 98.36,
+      "end": 98.54,
+      "word": " size"
+    },
+    {
+      "start": 98.54,
+      "end": 98.72,
+      "word": " as"
+    },
+    {
+      "start": 98.72,
+      "end": 98.96,
+      "word": " 50."
+    },
+    {
+      "start": 99.14,
+      "end": 99.44,
+      "word": " Now,"
+    },
+    {
+      "start": 99.44,
+      "end": 99.68,
+      "word": " next,"
+    },
+    {
+      "start": 99.84,
+      "end": 100.16,
+      "word": " car,"
+    },
+    {
+      "start": 100.4,
+      "end": 100.94,
+      "word": " author,"
+    },
+    {
+      "start": 101.16,
+      "end": 101.56,
+      "word": " size"
+    },
+    {
+      "start": 101.56,
+      "end": 101.86,
+      "word": " 50."
+    },
+    {
+      "start": 102.38,
+      "end": 102.9,
+      "word": " Then,"
+    },
+    {
+      "start": 103.0,
+      "end": 103.64,
+      "word": " float,"
+    },
+    {
+      "start": 103.9,
+      "end": 104.68,
+      "word": " prices,"
+    },
+    {
+      "start": 104.94,
+      "end": 105.6,
+      "word": " done."
+    },
+    {
+      "start": 105.8,
+      "end": 106.24,
+      "word": " Close"
+    },
+    {
+      "start": 106.24,
+      "end": 106.34,
+      "word": " the"
+    },
+    {
+      "start": 106.34,
+      "end": 106.74,
+      "word": " braces"
+    },
+    {
+      "start": 106.74,
+      "end": 107.4,
+      "word": " and"
+    },
+    {
+      "start": 107.4,
+      "end": 107.82,
+      "word": " you"
+    },
+    {
+      "start": 107.82,
+      "end": 108.04,
+      "word": " know"
+    },
+    {
+      "start": 108.04,
+      "end": 108.34,
+      "word": " what"
+    },
+    {
+      "start": 108.34,
+      "end": 108.54,
+      "word": " the"
+    },
+    {
+      "start": 108.54,
+      "end": 109.4,
+      "word": " syntax"
+    },
+    {
+      "start": 109.4,
+      "end": 109.64,
+      "word": " is."
+    },
+    {
+      "start": 109.98,
+      "end": 110.44,
+      "word": " Now,"
+    },
+    {
+      "start": 110.54,
+      "end": 111.6,
+      "word": " let's"
+    },
+    {
+      "start": 111.6,
+      "end": 112.18,
+      "word": " wrap"
+    },
+    {
+      "start": 112.18,
+      "end": 112.5,
+      "word": " up,"
+    },
+    {
+      "start": 112.58,
+      "end": 112.74,
+      "word": " guys."
+    },
+    {
+      "start": 113.62,
+      "end": 114.14,
+      "word": " Basically,"
+    },
+    {
+      "start": 114.4,
+      "end": 114.76,
+      "word": " structure"
+    },
+    {
+      "start": 114.76,
+      "end": 115.08,
+      "word": " is"
+    },
+    {
+      "start": 115.08,
+      "end": 115.16,
+      "word": " a"
+    },
+    {
+      "start": 115.16,
+      "end": 115.56,
+      "word": " foundation"
+    },
+    {
+      "start": 115.56,
+      "end": 116.14,
+      "word": " in"
+    },
+    {
+      "start": 116.14,
+      "end": 116.32,
+      "word": " C"
+    },
+    {
+      "start": 116.32,
+      "end": 117.02,
+      "word": " to"
+    },
+    {
+      "start": 117.02,
+      "end": 117.2,
+      "word": " have"
+    },
+    {
+      "start": 117.2,
+      "end": 117.3,
+      "word": " an"
+    },
+    {
+      "start": 117.3,
+      "end": 117.74,
+      "word": " organized"
+    },
+    {
+      "start": 117.74,
+      "end": 118.02,
+      "word": " program."
+    }
+  ],
+  "rejected": [
+    {
+      "start": 15.02,
+      "end": 15.02,
+      "word": " it?",
+      "reason": "invalid_duration"
+    }
+  ]
+}
