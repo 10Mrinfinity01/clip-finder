@@ -1,0 +1,529 @@
+{
+  "model": "VideoMAE + CLIP",
+  "weights": {
+    "videomae": 0.6,
+    "clip": 0.4
+  },
+  "results": [
+    {
+      "start": 0.0,
+      "end": 2.0,
+      "videomae_score": 0.0,
+      "clip_score": 24.55,
+      "visual_score": 9.82
+    },
+    {
+      "start": 2.0,
+      "end": 4.0,
+      "videomae_score": 21.31,
+      "clip_score": 4.86,
+      "visual_score": 14.73
+    },
+    {
+      "start": 4.0,
+      "end": 6.0,
+      "videomae_score": 44.42,
+      "clip_score": 47.83,
+      "visual_score": 45.78
+    },
+    {
+      "start": 6.0,
+      "end": 8.0,
+      "videomae_score": 97.24,
+      "clip_score": 77.24,
+      "visual_score": 89.24
+    },
+    {
+      "start": 8.0,
+      "end": 10.0,
+      "videomae_score": 51.9,
+      "clip_score": 56.52,
+      "visual_score": 53.75
+    },
+    {
+      "start": 10.0,
+      "end": 12.0,
+      "videomae_score": 72.08,
+      "clip_score": 53.71,
+      "visual_score": 64.73
+    },
+    {
+      "start": 12.0,
+      "end": 14.0,
+      "videomae_score": 61.77,
+      "clip_score": 41.94,
+      "visual_score": 53.84
+    },
+    {
+      "start": 14.0,
+      "end": 16.0,
+      "videomae_score": 78.48,
+      "clip_score": 73.66,
+      "visual_score": 76.55
+    },
+    {
+      "start": 16.0,
+      "end": 18.0,
+      "videomae_score": 59.81,
+      "clip_score": 34.53,
+      "visual_score": 49.7
+    },
+    {
+      "start": 18.0,
+      "end": 20.0,
+      "videomae_score": 73.16,
+      "clip_score": 75.7,
+      "visual_score": 74.18
+    },
+    {
+      "start": 20.0,
+      "end": 22.0,
+      "videomae_score": 53.58,
+      "clip_score": 48.85,
+      "visual_score": 51.69
+    },
+    {
+      "start": 22.0,
+      "end": 24.0,
+      "videomae_score": 62.37,
+      "clip_score": 49.36,
+      "visual_score": 57.17
+    },
+    {
+      "start": 24.0,
+      "end": 26.0,
+      "videomae_score": 68.37,
+      "clip_score": 49.1,
+      "visual_score": 60.66
+    },
+    {
+      "start": 26.0,
+      "end": 28.0,
+      "videomae_score": 32.92,
+      "clip_score": 60.61,
+      "visual_score": 44.0
+    },
+    {
+      "start": 28.0,
+      "end": 30.0,
+      "videomae_score": 22.33,
+      "clip_score": 28.9,
+      "visual_score": 24.96
+    },
+    {
+      "start": 30.0,
+      "end": 32.0,
+      "videomae_score": 52.43,
+      "clip_score": 52.17,
+      "visual_score": 52.33
+    },
+    {
+      "start": 32.0,
+      "end": 34.0,
+      "videomae_score": 37.2,
+      "clip_score": 65.73,
+      "visual_score": 48.61
+    },
+    {
+      "start": 34.0,
+      "end": 36.0,
+      "videomae_score": 56.68,
+      "clip_score": 88.24,
+      "visual_score": 69.3
+    },
+    {
+      "start": 36.0,
+      "end": 38.0,
+      "videomae_score": 71.49,
+      "clip_score": 54.22,
+      "visual_score": 64.58
+    },
+    {
+      "start": 38.0,
+      "end": 40.0,
+      "videomae_score": 81.5,
+      "clip_score": 100.0,
+      "visual_score": 88.9
+    },
+    {
+      "start": 40.0,
+      "end": 42.0,
+      "videomae_score": 44.45,
+      "clip_score": 24.55,
+      "visual_score": 36.49
+    },
+    {
+      "start": 42.0,
+      "end": 44.0,
+      "videomae_score": 29.45,
+      "clip_score": 49.36,
+      "visual_score": 37.41
+    },
+    {
+      "start": 44.0,
+      "end": 46.0,
+      "videomae_score": 15.32,
+      "clip_score": 38.36,
+      "visual_score": 24.54
+    },
+    {
+      "start": 46.0,
+      "end": 48.0,
+      "videomae_score": 53.88,
+      "clip_score": 43.48,
+      "visual_score": 49.72
+    },
+    {
+      "start": 48.0,
+      "end": 50.0,
+      "videomae_score": 70.18,
+      "clip_score": 65.98,
+      "visual_score": 68.5
+    },
+    {
+      "start": 50.0,
+      "end": 52.0,
+      "videomae_score": 37.66,
+      "clip_score": -0.0,
+      "visual_score": 22.6
+    },
+    {
+      "start": 52.0,
+      "end": 54.0,
+      "videomae_score": 100.0,
+      "clip_score": 95.91,
+      "visual_score": 98.36
+    },
+    {
+      "start": 54.0,
+      "end": 56.0,
+      "videomae_score": 46.98,
+      "clip_score": 88.24,
+      "visual_score": 63.48
+    },
+    {
+      "start": 56.0,
+      "end": 58.0,
+      "videomae_score": 75.79,
+      "clip_score": 98.47,
+      "visual_score": 84.86
+    },
+    {
+      "start": 58.0,
+      "end": 60.0,
+      "videomae_score": 49.05,
+      "clip_score": 25.83,
+      "visual_score": 39.76
+    },
+    {
+      "start": 60.0,
+      "end": 62.0,
+      "videomae_score": 31.41,
+      "clip_score": 71.36,
+      "visual_score": 47.39
+    },
+    {
+      "start": 62.0,
+      "end": 64.0,
+      "videomae_score": 66.83,
+      "clip_score": 7.93,
+      "visual_score": 43.27
+    },
+    {
+      "start": 64.0,
+      "end": 66.0,
+      "videomae_score": 46.09,
+      "clip_score": 38.62,
+      "visual_score": 43.1
+    },
+    {
+      "start": 66.0,
+      "end": 68.0,
+      "videomae_score": 21.78,
+      "clip_score": 42.71,
+      "visual_score": 30.15
+    },
+    {
+      "start": 68.0,
+      "end": 70.0,
+      "videomae_score": 27.91,
+      "clip_score": 35.04,
+      "visual_score": 30.76
+    },
+    {
+      "start": 70.0,
+      "end": 72.0,
+      "videomae_score": 34.27,
+      "clip_score": 9.21,
+      "visual_score": 24.24
+    },
+    {
+      "start": 72.0,
+      "end": 74.0,
+      "videomae_score": 22.96,
+      "clip_score": 2.05,
+      "visual_score": 14.59
+    },
+    {
+      "start": 74.0,
+      "end": 76.0,
+      "videomae_score": 29.1,
+      "clip_score": 39.9,
+      "visual_score": 33.42
+    },
+    {
+      "start": 76.0,
+      "end": 78.0,
+      "videomae_score": 15.28,
+      "clip_score": 44.76,
+      "visual_score": 27.07
+    },
+    {
+      "start": 78.0,
+      "end": 80.0,
+      "videomae_score": 44.29,
+      "clip_score": 60.1,
+      "visual_score": 50.61
+    },
+    {
+      "start": 80.0,
+      "end": 82.0,
+      "videomae_score": 19.03,
+      "clip_score": 60.87,
+      "visual_score": 35.77
+    },
+    {
+      "start": 82.0,
+      "end": 84.0,
+      "videomae_score": 42.74,
+      "clip_score": 76.47,
+      "visual_score": 56.23
+    },
+    {
+      "start": 84.0,
+      "end": 86.0,
+      "videomae_score": 25.67,
+      "clip_score": 14.58,
+      "visual_score": 21.23
+    },
+    {
+      "start": 86.0,
+      "end": 88.0,
+      "videomae_score": 30.69,
+      "clip_score": 32.23,
+      "visual_score": 31.3
+    },
+    {
+      "start": 88.0,
+      "end": 90.0,
+      "videomae_score": 50.72,
+      "clip_score": 73.91,
+      "visual_score": 60.0
+    },
+    {
+      "start": 90.0,
+      "end": 92.0,
+      "videomae_score": 37.76,
+      "clip_score": 43.73,
+      "visual_score": 40.15
+    },
+    {
+      "start": 92.0,
+      "end": 94.0,
+      "videomae_score": 28.75,
+      "clip_score": 39.39,
+      "visual_score": 33.0
+    },
+    {
+      "start": 94.0,
+      "end": 96.0,
+      "videomae_score": 18.18,
+      "clip_score": 39.13,
+      "visual_score": 26.56
+    },
+    {
+      "start": 96.0,
+      "end": 98.0,
+      "videomae_score": 23.12,
+      "clip_score": 48.85,
+      "visual_score": 33.41
+    },
+    {
+      "start": 98.0,
+      "end": 100.0,
+      "videomae_score": 26.17,
+      "clip_score": 67.77,
+      "visual_score": 42.81
+    },
+    {
+      "start": 100.0,
+      "end": 102.0,
+      "videomae_score": 19.35,
+      "clip_score": 41.18,
+      "visual_score": 28.08
+    },
+    {
+      "start": 102.0,
+      "end": 104.0,
+      "videomae_score": 34.04,
+      "clip_score": 81.84,
+      "visual_score": 53.16
+    },
+    {
+      "start": 104.0,
+      "end": 106.0,
+      "videomae_score": 93.24,
+      "clip_score": 22.51,
+      "visual_score": 64.95
+    },
+    {
+      "start": 106.0,
+      "end": 108.0,
+      "videomae_score": 61.4,
+      "clip_score": 54.48,
+      "visual_score": 58.63
+    },
+    {
+      "start": 108.0,
+      "end": 110.0,
+      "videomae_score": 24.85,
+      "clip_score": 9.72,
+      "visual_score": 18.8
+    },
+    {
+      "start": 110.0,
+      "end": 112.0,
+      "videomae_score": 82.38,
+      "clip_score": 44.25,
+      "visual_score": 67.13
+    },
+    {
+      "start": 112.0,
+      "end": 114.0,
+      "videomae_score": 42.57,
+      "clip_score": 80.31,
+      "visual_score": 57.66
+    },
+    {
+      "start": 114.0,
+      "end": 116.0,
+      "videomae_score": 50.39,
+      "clip_score": 24.81,
+      "visual_score": 40.16
+    },
+    {
+      "start": 116.0,
+      "end": 118.0,
+      "videomae_score": 51.98,
+      "clip_score": 89.51,
+      "visual_score": 66.99
+    }
+  ],
+  "top_moments": [
+    {
+      "start": 52.0,
+      "end": 54.0,
+      "videomae_score": 100.0,
+      "clip_score": 95.91,
+      "visual_score": 98.36
+    },
+    {
+      "start": 6.0,
+      "end": 8.0,
+      "videomae_score": 97.24,
+      "clip_score": 77.24,
+      "visual_score": 89.24
+    },
+    {
+      "start": 38.0,
+      "end": 40.0,
+      "videomae_score": 81.5,
+      "clip_score": 100.0,
+      "visual_score": 88.9
+    },
+    {
+      "start": 56.0,
+      "end": 58.0,
+      "videomae_score": 75.79,
+      "clip_score": 98.47,
+      "visual_score": 84.86
+    },
+    {
+      "start": 14.0,
+      "end": 16.0,
+      "videomae_score": 78.48,
+      "clip_score": 73.66,
+      "visual_score": 76.55
+    },
+    {
+      "start": 18.0,
+      "end": 20.0,
+      "videomae_score": 73.16,
+      "clip_score": 75.7,
+      "visual_score": 74.18
+    },
+    {
+      "start": 34.0,
+      "end": 36.0,
+      "videomae_score": 56.68,
+      "clip_score": 88.24,
+      "visual_score": 69.3
+    },
+    {
+      "start": 48.0,
+      "end": 50.0,
+      "videomae_score": 70.18,
+      "clip_score": 65.98,
+      "visual_score": 68.5
+    },
+    {
+      "start": 110.0,
+      "end": 112.0,
+      "videomae_score": 82.38,
+      "clip_score": 44.25,
+      "visual_score": 67.13
+    },
+    {
+      "start": 116.0,
+      "end": 118.0,
+      "videomae_score": 51.98,
+      "clip_score": 89.51,
+      "visual_score": 66.99
+    },
+    {
+      "start": 104.0,
+      "end": 106.0,
+      "videomae_score": 93.24,
+      "clip_score": 22.51,
+      "visual_score": 64.95
+    },
+    {
+      "start": 10.0,
+      "end": 12.0,
+      "videomae_score": 72.08,
+      "clip_score": 53.71,
+      "visual_score": 64.73
+    },
+    {
+      "start": 36.0,
+      "end": 38.0,
+      "videomae_score": 71.49,
+      "clip_score": 54.22,
+      "visual_score": 64.58
+    },
+    {
+      "start": 54.0,
+      "end": 56.0,
+      "videomae_score": 46.98,
+      "clip_score": 88.24,
+      "visual_score": 63.48
+    },
+    {
+      "start": 24.0,
+      "end": 26.0,
+      "videomae_score": 68.37,
+      "clip_score": 49.1,
+      "visual_score": 60.66
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "audio": "english_test.wav",
+  "duration": 118.05,
+  "language": "en",
+  "model": "Indic-Transcribe Core 1.2B",
+  "sample_rate": 16000,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 25.26,
+      "text": "Hello everyone I am Nikhil Today imagine that you ve got a project to build a app to manage a library In order to manage a library what do you need You need to have a track on each and every book isn t it In order to have a track on each and every book you need to know the title the author and the price of the book And you know in basics he programming"
+    },
+    {
+      "start": 25.26,
+      "end": 50.28,
+      "text": "You need to declare all these three separately for each and every book This is gonna be a really hard task This is where structures come in Structures allows you to specify these separate variables or data names in a single name or a single folder in the sense All these files will be sorted in a single folder where you can customize your own data type Now"
+    },
+    {
+      "start": 50.28,
+      "end": 73.65,
+      "text": "It s simplified more Take the structure as an example of your house blueprint So this house blueprint doesn t contain the house itself It contains what the house contains Example the rooms and the windows Now let s come to part of the syntax How does a structure syntax exactly is"
+    },
+    {
+      "start": 73.65,
+      "end": 99.96,
+      "text": "or how it is represented by taking the example of the first thing I told you managing a library The it starts with the struct which is the data name or data type and the tag name which is book and you open the braces and you declare the variables of different types example CAD the book name fifty the you can keep the book size as fifty now next"
+    },
+    {
+      "start": 99.96,
+      "end": 118.05,
+      "text": "car author size of tea then float prices done closer of that braces and you know what the syntax is now let s to wrap up guys basically structure as a foundation and see to have a organized process"
+    }
+  ],
+  "full_transcript": "Hello everyone I am Nikhil Today imagine that you ve got a project to build a app to manage a library In order to manage a library what do you need You need to have a track on each and every book isn t it In order to have a track on each and every book you need to know the title the author and the price of the book And you know in basics he programming You need to declare all these three separately for each and every book This is gonna be a really hard task This is where structures come in Structures allows you to specify these separate variables or data names in a single name or a single folder in the sense All these files will be sorted in a single folder where you can customize your own data type Now It s simplified more Take the structure as an example of your house blueprint So this house blueprint doesn t contain the house itself It contains what the house contains Example the rooms and the windows Now let s come to part of the syntax How does a structure syntax exactly is or how it is represented by taking the example of the first thing I told you managing a library The it starts with the struct which is the data name or data type and the tag name which is book and you open the braces and you declare the variables of different types example CAD the book name fifty the you can keep the book size as fifty now next car author size of tea then float prices done closer of that braces and you know what the syntax is now let s to wrap up guys basically structure as a foundation and see to have a organized process"
+}
